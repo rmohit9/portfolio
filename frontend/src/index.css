@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  /* GitHub Dark Mode Defaults */
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text-h: #f0f6fc;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-bg: rgba(88, 166, 255, 0.1);
+  --accent-border: rgba(88, 166, 255, 0.4);
+  --code-bg: #6e76811a;
+  
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+
+  font: 16px/1.5 var(--sans);
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+}
+
+/* GitHub main container layout centering */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Typography styles matching GitHub hierarchy */
+h1, h2, h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text-h);
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 1.25;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+p {
+  margin: 0 0 16px;
+  color: var(--text-muted);
+}
+
+/* Inline Code block styling matching GitHub markdown */
+code {
+  font-family: var(--mono);
+  font-size: 85%;
+  padding: .2em .4em;
+  background-color: var(--code-bg);
+  border-radius: 6px;
+  color: var(--text-h);
+}
+
+/* Utility anchor overrides to fit GitHub look */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
