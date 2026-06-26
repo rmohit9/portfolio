@@ -13,7 +13,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-GITHUB_USERNAME = "YOUR_GITHUB_USERNAME"
+GITHUB_USERNAME = "rmohit9"
 
 @app.get("/api/github-profile")
 def get_github_profile():
