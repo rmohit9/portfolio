@@ -4,16 +4,77 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #0b0c10;
+  background-color: var(--editor-bg, #0d1117);
   overflow: hidden;
+}
+
+/* Theme definition mappings on shell */
+.editor-shell.theme-mohit {
+  --editor-bg: #0d1117;
+  --sidebar-bg: #16171d;
+  --activity-bg: #13141f;
+  --border-color: #2e303a;
+  --text-muted: #8b949e;
+  --text-bright: #f3f4f6;
+  --accent-light: #58a6ff;
+  --status-bg: #007acc;
+  --status-text: #ffffff;
+  --copilot-bg: #161b22;
+  --tab-active-bg: #0d1117;
+  --tab-inactive-bg: #1c1d24;
+}
+
+.editor-shell.theme-onedark {
+  --editor-bg: #282c34;
+  --sidebar-bg: #21252b;
+  --activity-bg: #1e2227;
+  --border-color: #3e4451;
+  --text-muted: #abb2bf;
+  --text-bright: #ffffff;
+  --accent-light: #61afef;
+  --status-bg: #21252b;
+  --status-text: #61afef;
+  --copilot-bg: #1e2227;
+  --tab-active-bg: #282c34;
+  --tab-inactive-bg: #21252b;
+}
+
+.editor-shell.theme-synthwave {
+  --editor-bg: #2b213a;
+  --sidebar-bg: #241b2f;
+  --activity-bg: #1f1429;
+  --border-color: #463465;
+  --text-muted: #a977e2;
+  --text-bright: #ffffff;
+  --accent-light: #f92aad;
+  --status-bg: #241b2f;
+  --status-text: #f92aad;
+  --copilot-bg: #1f1429;
+  --tab-active-bg: #2b213a;
+  --tab-inactive-bg: #241b2f;
+}
+
+.editor-shell.theme-dracula {
+  --editor-bg: #282a36;
+  --sidebar-bg: #1e1f29;
+  --activity-bg: #191a21;
+  --border-color: #44475a;
+  --text-muted: #6272a4;
+  --text-bright: #f8f8f2;
+  --accent-light: #ff79c6;
+  --status-bg: #191a21;
+  --status-text: #50fa7b;
+  --copilot-bg: #1e1f29;
+  --tab-active-bg: #282a36;
+  --tab-inactive-bg: #1e1f29;
 }
 
 /* 1. Immersive Edge-to-Edge Screen Framework */
 .editor-shell {
   width: 100vw;
   height: 100vh;
-  background-color: #0d1117;
-  color: #9ca3af;
+  background-color: var(--editor-bg);
+  color: var(--text-muted);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -22,14 +83,16 @@ html, body {
 
 /* Activity Top Navigation Hierarchy */
 .editor-menu-bar {
-  background-color: #16171d;
-  border-bottom: 1px solid #2e303a;
+  background-color: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   padding: 8px 16px;
   font-size: 13px;
-  color: #6b6375;
+  color: var(--text-muted);
   user-select: none;
+  height: 35px;
+  box-sizing: border-box;
 }
 
 /* Main Split Viewport Body Frame */
@@ -40,21 +103,84 @@ html, body {
   overflow: hidden;
 }
 
+/* Vertical Activity Bar Drawer */
+.activity-bar {
+  width: 50px;
+  background-color: var(--activity-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.activity-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  align-items: center;
+}
+
+.activity-icon {
+  position: relative;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 8px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transition: color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.activity-icon:hover {
+  color: var(--text-bright);
+}
+
+.activity-icon.active {
+  color: var(--accent-light);
+  border-left: 2px solid var(--accent-light);
+}
+
+.activity-icon-badge {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  background-color: var(--accent-light);
+  color: var(--editor-bg);
+  font-size: 9px;
+  font-weight: bold;
+  border-radius: 9px;
+  padding: 1px 4px;
+}
+
 /* File Structure Navigation Left Sidebar */
 .editor-sidebar {
   width: 250px;
-  background-color: #16171d;
-  border-right: 1px solid #2e303a;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   font-size: 13px;
   user-select: none;
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editor-sidebar.collapsed {
+  width: 0;
+  border-right: none;
 }
 
 /* Main Code Content Area Container */
 .editor-main-panel {
   flex: 1;
-  background-color: #0d1117;
+  background-color: var(--editor-bg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -62,28 +188,31 @@ html, body {
 
 /* Open Tabs Link Rows Bar */
 .editor-tabs-bar {
-  background-color: #16171d;
-  border-bottom: 1px solid #2e303a;
+  background-color: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   user-select: none;
+  height: 35px;
+  box-sizing: border-box;
 }
 
 .editor-tab {
-  padding: 10px 20px;
-  border-right: 1px solid #2e303a;
-  color: #6b6375;
+  padding: 8px 16px;
+  border-right: 1px solid var(--border-color);
+  color: var(--text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  background-color: #1c1d24;
+  background-color: var(--tab-inactive-bg);
+  transition: background-color 0.15s ease;
 }
 
 .editor-tab.active {
-  background-color: #0d1117;
-  color: #f3f4f6;
-  border-top: 2px solid #c084fc;
+  background-color: var(--tab-active-bg);
+  color: var(--text-bright);
+  border-top: 2px solid var(--accent-light);
 }
 
 /* Core File Scroll Workspace Wrapper Viewport */
@@ -137,7 +266,7 @@ html, body {
 /* 3. Dual Canvas Orbital Grid Block */
 .orbs-layout-grid {
   display: grid;
-  grid-template-cols: 1 grid;
+  grid-template-columns: 1fr;
   gap: 32px;
   width: 100%;
   margin-top: 40px;
@@ -145,13 +274,13 @@ html, body {
 
 @media (min-width: 768px) {
   .orbs-layout-grid {
-    grid-template-cols: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .orb-card-frame {
-  background-color: #16171d;
-  border: 1px solid #2e303a;
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 24px;
   display: flex;
@@ -161,8 +290,8 @@ html, body {
 
 /* Blue Bottom Editor System Status Belt */
 .editor-status-bar {
-  background-color: #007acc;
-  color: #ffffff;
+  background-color: var(--status-bg, #007acc);
+  color: var(--status-text, #ffffff);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -170,4 +299,426 @@ html, body {
   font-size: 12px;
   user-select: none;
   height: 22px;
+}
+
+/* Additional UI additions for rich VS Code Simulation */
+
+/* Code Editor Gutter & Gutter Layout */
+.editor-code-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+}
+
+.editor-gutter {
+  width: 48px;
+  background-color: transparent;
+  border-right: 1px solid var(--border-color);
+  text-align: right;
+  padding-right: 12px;
+  padding-top: 40px;
+  color: #5a5f78;
+  font-family: var(--mono, monospace);
+  font-size: 13px;
+  user-select: none;
+  line-height: 24px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.editor-gutter-line {
+  display: block;
+  height: 24px;
+}
+
+.editor-workspace-file-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Copilot Chat Panel */
+.copilot-panel {
+  border-top: 1px solid var(--border-color);
+  background-color: var(--copilot-bg);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  height: 210px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.copilot-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copilot-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  font-size: 11.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.copilot-msg {
+  padding: 6px 8px;
+  border-radius: 4px;
+  max-width: 90%;
+  word-break: break-word;
+}
+
+.copilot-msg.user {
+  background-color: rgba(192, 132, 252, 0.15);
+  color: var(--text-bright);
+  align-self: flex-end;
+}
+
+.copilot-msg.ai {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-bright);
+  align-self: flex-start;
+  border-left: 2px solid var(--accent-light);
+}
+
+.copilot-input-container {
+  display: flex;
+  gap: 4px;
+}
+
+.copilot-input {
+  flex: 1;
+  background-color: var(--editor-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-bright);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  outline: none;
+}
+
+.copilot-input:focus {
+  border-color: var(--accent-light);
+}
+
+.copilot-btn {
+  background-color: var(--accent-light);
+  color: var(--editor-bg);
+  font-size: 11px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+/* Sidebar Search list items */
+.search-input-field {
+  width: calc(100% - 24px);
+  margin: 12px;
+  background-color: var(--editor-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-bright);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.search-results-list {
+  padding: 0 12px 12px 12px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.search-item {
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+  margin-bottom: 6px;
+  border: 1px solid transparent;
+}
+
+.search-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-color);
+}
+
+/* Source Control commit */
+.git-changes-title {
+  padding: 12px 12px 6px 12px;
+  font-weight: bold;
+  color: var(--text-bright);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.git-changes-list {
+  padding: 0 12px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.git-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.git-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.git-commit-container {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+.git-commit-input {
+  background-color: var(--editor-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-bright);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  outline: none;
+  resize: none;
+  height: 60px;
+}
+
+.git-commit-btn {
+  background-color: var(--accent-light);
+  color: var(--editor-bg);
+  font-weight: bold;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  transition: opacity 0.15s ease;
+}
+
+.git-commit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Extensions search layout */
+.extensions-grid {
+  padding: 12px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.extension-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  transition: border-color 0.15s ease;
+}
+
+.extension-card:hover {
+  border-color: var(--accent-light);
+}
+
+.extension-icon-frame {
+  width: 32px;
+  height: 32px;
+  background-color: var(--editor-bg);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.extension-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.extension-name {
+  font-weight: bold;
+  color: var(--text-bright);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.extension-desc {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.extension-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.theme-button {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--text-bright);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.theme-button:hover {
+  border-color: var(--accent-light);
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.theme-button.active {
+  border-color: var(--accent-light);
+  background-color: rgba(192, 132, 252, 0.1);
+}
+
+/* Concentric Orbital Structures Animation */
+.orbital-orbits-wrapper {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.orbital-track-ring {
+  position: absolute;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.orbital-center-badge {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background-color: var(--sidebar-bg);
+  border: 2px solid var(--border-color);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  font-family: var(--mono, monospace);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text-bright);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.orbital-spin-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@keyframes orbitSpinClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbitSpinCounterClockwise {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.orbital-node-slot {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  margin-left: -16px;
+  pointer-events: auto;
+}
+
+.orbital-node-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.orbital-node-icon:hover {
+  transform: scale(1.18);
+  border-color: var(--accent-light);
+  box-shadow: 0 0 12px var(--accent-light);
+}
+
+.orbital-node-icon img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* Heading outline override */
+.heading-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-bright);
+  font-weight: 800;
 }

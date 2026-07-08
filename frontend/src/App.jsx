@@ -1,42 +1,82 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 
-const EXPANDED_SNAKE_MATRIX = [
-  [1,0,0,0,1, 0,0, 0,1,1,1,0, 0,0, 1,0,0,0,1, 0,0, 1,1,1,1,1, 0,0, 1,1,1,1,1, 0,0,0,0, 0,0,0,0,0],
-  [1,1,0,1,1, 0,0, 1,0,0,0,1, 0,0, 1,0,0,0,1, 0,0, 0,0,1,0,0, 0,0, 0,0,1,0,0, 0,0,0,0, 1,0,0,1,0],
-  [1,0,1,0,1, 0,0, 1,0,0,0,1, 0,0, 1,1,1,1,1, 0,0, 0,0,1,0,0, 0,0, 0,0,1,0,0, 0,0,0,0, 0,0,0,0,0],
-  [1,0,0,0,1, 0,0, 1,0,0,0,1, 0,0, 1,0,0,0,1, 0,0, 0,0,1,0,0, 0,0, 0,0,1,0,0, 0,0,0,0, 1,0,0,0,0],
-  [1,0,0,0,1, 0,0, 0,1,1,1,0, 0,0, 1,0,0,0,1, 0,0, 1,1,1,1,1, 0,0, 0,0,1,0,0, 0,0,0,0, 0,1,1,0,0]
-];
+// Import Custom Modular Components
+import FileExplorer from './components/FileExplorer';
+import {
+  ReactIcon,
+  HtmlIcon,
+  JsIcon,
+  TsIcon,
+  JsonIcon,
+  CssIcon,
+  MarkdownIcon,
+  GitIcon,
+  EnvIcon
+} from './components/Icons';
 
-const TECH_ICONS = [
-  { name: 'Python', src: '/python.png' },
-  { name: 'FastAPI', src: '/fastapi.png' },
-  { name: 'Tailwind', src: '/tailwind.png' },
-  { name: 'Docker', src: '/docker.png' },
-  { name: 'HTML5', src: '/html.png' },
-  { name: 'CSS3', src: '/css.png' },
-  { name: 'Django', src: '/django.png' },
-  { name: 'Bootstrap', src: '/bootstrap.png' }
-];
+// Import Pages/Views
+import HomeView from './components/pages/HomeView';
+import AboutView from './components/pages/AboutView';
+import ProjectsView from './components/pages/ProjectsView';
+import SkillsView from './components/pages/SkillsView';
+import ExperienceView from './components/pages/ExperienceView';
+import ContactView from './components/pages/ContactView';
+import GitignoreView from './components/pages/GitignoreView';
 
-const AI_ICONS = [
-  { name: 'OpenCV', src: '/opencv.png' },
-  { name: 'Postman', src: '/postman.png' },
-  { name: 'Flask', src: '/flask.png' },
-  { name: 'Kubernetes', src: '/kubernetes.png' }
-];
+const routeToFileMap = {
+  '/': 'home.tsx',
+  '/home': 'home.tsx',
+  '/about': 'about.html',
+  '/projects': 'projects.js',
+  '/skills': 'skills.json',
+  '/experience': 'experience.ts',
+  '/contact': 'contact.css',
+  '/readme': 'README.md',
+  '/hobbies': 'hobbies.md',
+  '/gitignore': '.gitignore',
+  '/env': '.env'
+};
+
+const fileToRouteMap = {
+  'home.tsx': '/home',
+  'about.html': '/about',
+  'projects.js': '/projects',
+  'skills.json': '/skills',
+  'experience.ts': '/experience',
+  'contact.css': '/contact',
+  'README.md': '/readme',
+  'hobbies.md': '/hobbies',
+  '.gitignore': '/gitignore',
+  '.env': '/env'
+};
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('home.tsx');
-  const [snakePos, setSnakePos] = useState({ r: 0, c: 0 });
-  const [snakeTrail, setSnakeTrail] = useState([]);
   
-  const techCanvasRef = useRef(null);
-  const aiCanvasRef = useRef(null);
+  const activeTab = routeToFileMap[location.pathname] || 'home.tsx';
+  const [openTabs, setOpenTabs] = useState(['home.tsx', 'projects.js']);
+  const [theme, setTheme] = useState('mohit');
+  const [activeSidebar, setActiveSidebar] = useState('explorer');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [commitMessage, setCommitMessage] = useState('');
+  const [isCommitted, setIsCommitted] = useState(false);
 
+  // Sync route path changes to open tabs
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const fileName = routeToFileMap[currentPath] || 'home.tsx';
+    if (!openTabs.includes(fileName)) {
+      setOpenTabs((prev) => [...prev, fileName]);
+    }
+  }, [location.pathname]);
+
+  // Fetch GitHub profile from FastAPI backend
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/github-profile')
       .then((res) => res.json())
@@ -46,246 +86,372 @@ function App() {
       })
       .catch(() => {
         setData({
-          profile: { name: "Mohit", bio: "Building intelligent and scalable software solutions", followers: 24, location: "India" },
+          profile: { 
+            name: "Mohit Raut", 
+            bio: "Building intelligent and scalable AI Solutions", 
+            followers: 24, 
+            location: "fulltime-Nagpur, Part-time-Hyderabad" 
+          },
           repos: [
-            { id: 1, name: "agri-monitoring-iot", description: "ESP32 agricultural tracking tracking backend engine structures.", html_url: "#", language: "Python" },
-            { id: 2, name: "hsr-motors-crm", description: "High-resolution automotive customer management interface systems.", html_url: "#", language: "JavaScript" }
+            { id: 1, name: "Caption-Generator", description: "A deep learning model base that generates captions for images.", html_url: "https://github.com/rmohit9/Caption-Generator", language: "JavaScript" },
+            { id: 2, name: "Faq_RAG_Chatbot", description: "A Retrieval-Augmented Generation chatbot system configured to answer FAQs utilizing vector storage matching.", html_url: "https://github.com/rmohit9/Faq_RAG_Chatbot", language: "HTML" }
           ]
         });
         setLoading(false);
       });
   }, []);
 
-  useEffect(() => {
-    const rows = EXPANDED_SNAKE_MATRIX.length;
-    const cols = EXPANDED_SNAKE_MATRIX[0].length;
-    const interval = setInterval(() => {
-      setSnakePos((prev) => {
-        let nextR = prev.r;
-        let nextC = prev.c;
-        if (prev.r % 2 === 0) {
-          if (prev.c < cols - 1) nextC++;
-          else nextR = (prev.r + 1) % rows;
-        } else {
-          if (prev.c > 0) nextC--;
-          else nextR = (prev.r + 1) % rows;
-        }
-        setSnakeTrail((trail) => [{ r: prev.r, c: prev.c }, ...trail].slice(0, 4));
-        return { r: nextR, c: nextC };
-      });
-    }, 60);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Helper template engine to handle independent spinning image spheres
-  const initSphereAnimation = (canvas, iconList, speedX, speedY) => {
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const radius = 90;
-
-    const items = iconList.map((icon, idx) => {
-      const img = new Image();
-      img.src = icon.src;
-      const phi = Math.acos(-1 + (2 * idx) / iconList.length);
-      const theta = Math.sqrt(iconList.length * Math.PI) * phi;
-      return { img, name: icon.name, x: radius * Math.sin(phi) * Math.cos(theta), y: radius * Math.sin(phi) * Math.sin(theta), z: radius * Math.cos(phi) };
-    });
-
-    let angleX = speedX, angleY = speedY, animId;
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const cx = canvas.width / 2, cy = canvas.height / 2;
-      items.sort((a, b) => b.z - a.z);
-
-      items.forEach(item => {
-        const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
-        const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
-        const x1 = item.x * cosY - item.z * sinY;
-        const z1 = item.z * cosY + item.x * sinY;
-        const y2 = item.y * cosX - z1 * sinX;
-        const z2 = z1 * cosX + item.y * sinX;
-        item.x = x1; item.y = y2; item.z = z2;
-
-        const scale = 240 / (240 + item.z);
-        const size = 32 * scale;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0.15, (item.z + radius) / (2 * radius));
-        if (item.img.complete && item.img.naturalWidth !== 0) {
-          ctx.drawImage(item.img, cx + item.x - size / 2, cy + item.y - size / 2, size, size);
-        } else {
-          ctx.fillStyle = '#6b6375';
-          ctx.font = '10px monospace';
-          ctx.fillText(item.name, cx + item.x - 12, cy + item.y);
-        }
-        ctx.restore();
-      });
-      animId = requestAnimationFrame(render);
-    };
-    render();
-    return () => cancelAnimationFrame(animId);
+  const handleFileClick = (fileName) => {
+    if (!openTabs.includes(fileName)) {
+      setOpenTabs([...openTabs, fileName]);
+    }
+    const route = fileToRouteMap[fileName] || '/home';
+    navigate(route);
   };
 
-  useEffect(() => {
-    if (loading || activeTab !== 'home.tsx') return;
-    const cleanTech = initSphereAnimation(techCanvasRef.current, TECH_ICONS, 0.004, 0.005);
-    const cleanAI = initSphereAnimation(aiCanvasRef.current, AI_ICONS, -0.005, 0.004);
-    return () => {
-      if (cleanTech) cleanTech();
-      if (cleanAI) cleanAI();
-    };
-  }, [loading, activeTab]);
+  const handleCloseTab = (fileName, e) => {
+    e.stopPropagation();
+    const updatedTabs = openTabs.filter(t => t !== fileName);
+    setOpenTabs(updatedTabs);
+    if (activeTab === fileName && updatedTabs.length > 0) {
+      const lastTab = updatedTabs[updatedTabs.length - 1];
+      const route = fileToRouteMap[lastTab] || '/home';
+      navigate(route);
+    } else if (updatedTabs.length === 0) {
+      navigate('/home');
+    }
+  };
+
+
+  const handleCommitSubmit = () => {
+    if (!commitMessage.trim()) return;
+    setIsCommitted(true);
+    setCommitMessage('');
+    setTimeout(() => {
+      setIsCommitted(false);
+    }, 1500);
+  };
 
   if (loading) return <div className="p-12 text-gray-500 font-mono text-center">// Initializing fullscreen environment...</div>;
 
   return (
-    <div className="editor-shell select-none">
+    <div className={`editor-shell select-none theme-${theme}`}>
       
-      {/* 1. MAIN APP WINDOW MENU HEADER */}
+      {/* 1. TOP APP MENU ACTION BAR */}
       <header className="editor-menu-bar justify-between">
-        <div className="flex gap-4">
-          <span className="text-[#f3f4f6] font-semibold">File</span>
-          <span>Edit</span> <span>View</span> <span>Go</span> <span>Run</span> <span>Terminal</span> <span>Help</span>
+        <div className="flex items-center gap-4">
+          <div className="flex gap-1.5 mr-2">
+            <span className="w-3 h-3 rounded-full bg-[#ff5f56] cursor-pointer hover:opacity-80" onClick={() => alert("Close layout simulation window?")} />
+            <span className="w-3 h-3 rounded-full bg-[#ffbd2e] cursor-pointer hover:opacity-80" onClick={() => setActiveSidebar(activeSidebar ? null : 'explorer')} />
+            <span className="w-3 h-3 rounded-full bg-[#27c93f] cursor-pointer hover:opacity-80" onClick={() => document.documentElement.requestFullscreen().catch(() => {})} />
+          </div>
+          <div className="hidden md:flex gap-3 text-gray-400 font-normal">
+            <span className="text-gray-300 font-semibold cursor-pointer hover:text-white">File</span>
+            <span className="cursor-pointer hover:text-white">Edit</span>
+            <span className="cursor-pointer hover:text-white">View</span>
+            <span className="cursor-pointer hover:text-white">Go</span>
+            <span className="cursor-pointer hover:text-white">Run</span>
+            <span className="cursor-pointer hover:text-white">Terminal</span>
+            <span className="cursor-pointer hover:text-white">Help</span>
+          </div>
         </div>
-        <div className="text-xs bg-[#0d1117] px-8 py-1 rounded border border-[#2e303a] w-96 text-center truncate">
-          mohit-raut : portfolio — src/app/home.tsx
+
+        <div className="flex items-center gap-2 text-xs bg-[#0d1117]/80 hover:bg-[#0d1117] px-4 py-1.5 rounded-md border border-[#2e303a] w-72 md:w-96 text-left cursor-pointer transition-colors relative" onClick={() => setActiveSidebar('search')}>
+          <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <span className="text-gray-400 truncate">rmohit9 : portfolio — src/app/{activeTab}</span>
+          <span className="absolute right-2 top-1.5 text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.2 rounded border border-gray-700">Ctrl P</span>
         </div>
-        <div className="flex gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-          <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-          <span className="w-3 h-3 rounded-full bg-[#27c93f]" />
+
+        <div className="flex gap-3 text-gray-400 items-center">
+          <button className="hover:text-white p-1 cursor-pointer transition-colors" title="Toggle Sidebar" onClick={() => setActiveSidebar(activeSidebar ? null : 'explorer')}>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+          <span className="h-4 w-px bg-gray-700"></span>
+          <span className="text-[10px] text-gray-500 font-mono tracking-wider">v15.0</span>
         </div>
       </header>
 
       {/* 2. SPLIT INTERFACE PANEL ROW */}
       <div className="editor-workspace">
         
-        {/* SIDEBAR EXPLORER SPLIT VIEW */}
-        <aside className="editor-sidebar hidden md:flex">
-          <div className="p-3 font-bold tracking-wider text-gray-400 text-xs uppercase border-b border-[#2e303a]">
-            Explorer: Portfolio
-          </div>
-          <div className="p-3 space-y-1">
-            <div className="text-[#c084fc] font-medium">📁 src</div>
-            <div className="pl-4 space-y-1">
-              <div className="text-gray-400">📁 app</div>
-              <div className={`pl-4 cursor-pointer flex items-center gap-1.5 ${activeTab === 'home.tsx' ? 'text-[#f3f4f6] font-semibold' : 'text-gray-500'}`} onClick={() => setActiveTab('home.tsx')}>
-                ⚛️ home.tsx
-              </div>
-              <div className={`pl-4 cursor-pointer flex items-center gap-1.5 ${activeTab === 'projects.js' ? 'text-[#f3f4f6] font-semibold' : 'text-gray-500'}`} onClick={() => setActiveTab('projects.js')}>
-                💛 projects.js
-              </div>
-              <div className="text-gray-500 pl-4">📝 skills.json</div>
+        {/* ACTIVITY BAR DRAWER */}
+        <nav className="activity-bar">
+          <div className="activity-group">
+            <div className={`activity-icon ${activeSidebar === 'explorer' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'explorer' ? null : 'explorer')} title="Explorer">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M16 4H4v16h12V4z" /><path d="M8 2h10v16M20 6h-2M20 10h-2" /></svg>
             </div>
-            <div className="text-gray-400">📁 config</div>
-            <div className="text-gray-500 pl-4">⚙️ .gitignore</div>
+            <div className={`activity-icon ${activeSidebar === 'search' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'search' ? null : 'search')} title="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+            </div>
+            <div className={`activity-icon ${activeSidebar === 'git' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'git' ? null : 'git')} title="Source Control">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="18" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 15V9a4 4 0 0 0-4-4H9" /><line x1="6" y1="9" x2="6" y2="15" /></svg>
+              <span className="activity-icon-badge">3</span>
+            </div>
+            <div className={`activity-icon ${activeSidebar === 'debug' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'debug' ? null : 'debug')} title="Run and Debug">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M8 5v14l11-7z" /><path d="M12 2v3M12 19v3M5 12h3M16 12h3" /></svg>
+            </div>
+            <div className={`activity-icon ${activeSidebar === 'extensions' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'extensions' ? null : 'extensions')} title="Extensions">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[20px] h-[20px]"><rect x="4" y="13" width="6" height="6" /><rect x="13" y="4" width="6" height="6" /><rect x="13" y="13" width="6" height="6" /><rect x="5" y="5" width="4" height="4" strokeWidth="1.2" /></svg>
+            </div>
           </div>
-        </aside>
-
-        {/* WORKSPACE CODE VIEWER PANEL */}
-        <main className="editor-main-panel">
           
-          {/* CONTROL TAB LINK ROW */}
-          <div className="editor-tabs-bar">
-            <div className={`editor-tab ${activeTab === 'home.tsx' ? 'active' : ''}`} onClick={() => setActiveTab('home.tsx')}>
-              <span>⚛️ home.tsx</span>
+          <div className="activity-group">
+            <div className={`activity-icon ${activeSidebar === 'coffee' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'coffee' ? null : 'coffee')} title="Support / Sponsor">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="2" x2="6" y2="5" /><line x1="10" y1="2" x2="10" y2="5" /><line x1="14" y1="2" x2="14" y2="5" /></svg>
             </div>
-            <div className={`editor-tab ${activeTab === 'projects.js' ? 'active' : ''}`} onClick={() => setActiveTab('projects.js')}>
-              <span>💛 projects.js</span>
+            <div className={`activity-icon ${activeSidebar === 'settings' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'settings' ? null : 'settings')} title="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
             </div>
           </div>
+        </nav>
 
-          {/* DYNAMIC SCROLL CONTAINER SPACE */}
-          <div className="editor-content-scroll">
-            {activeTab === 'home.tsx' ? (
-              <div className="space-y-8 animate-fadeIn">
-                
-                {/* HERO HEADING VIEW */}
-                <div className="text-left space-y-3">
-                  <span className="text-xs font-mono text-[#c084fc] block">// welcome to my interactive frontend core layer shell</span>
-                  <h1 className="text-5xl font-black text-[#f3f4f6] tracking-tight m-0">
-                    {data.profile.name} <span className="text-gray-600 font-light text-2xl">/ Engineer</span>
-                  </h1>
-                  <p className="text-md text-gray-400 font-mono max-w-2xl leading-relaxed m-0">
-                    {data.profile.bio}
-                  </p>
-                </div>
+        {/* SIDEBAR MAIN DRAWER VIEW */}
+        <aside className={`editor-sidebar ${!activeSidebar ? 'collapsed' : ''}`}>
+          <div className="p-3 font-bold tracking-wider text-gray-400 text-xs uppercase border-b border-[#2e303a] flex justify-between items-center">
+            <span>
+              {activeSidebar === 'explorer' && "Explorer: Portfolio"}
+              {activeSidebar === 'search' && "Search Workspace"}
+              {activeSidebar === 'git' && "Source Control (Git)"}
+              {activeSidebar === 'debug' && "Run and Debug"}
+              {activeSidebar === 'extensions' && "Extensions Marketplace"}
+              {activeSidebar === 'coffee' && "Sponsor / Support"}
+              {activeSidebar === 'settings' && "Preferences: Themes"}
+            </span>
+            <button className="text-gray-500 hover:text-gray-200 cursor-pointer" onClick={() => setActiveSidebar(null)}>×</button>
+          </div>
 
-                {/* CENTERED SNAKE COMMIT MATRIX OVERVIEW */}
-                <div className="matrix-wrapper">
-                  <div className="matrix-container">
-                    {EXPANDED_SNAKE_MATRIX.map((row, rIdx) => (
-                      <div key={rIdx} className="flex gap-[5px]">
-                        {row.map((cell, cIdx) => {
-                          let cellClass = "bg-[#1f2028]";
-                          if (cell === 1) cellClass = "bg-[#0e4429]";
-
-                          if (snakePos.r === rIdx && snakePos.c === cIdx) cellClass = "cell-snake-head";
-                          else if (snakeTrail[0] && snakeTrail[0].r === rIdx && snakeTrail[0].c === cIdx) cellClass = "cell-snake-t1";
-                          else if (snakeTrail[1] && snakeTrail[1].r === rIdx && snakeTrail[1].c === cIdx) cellClass = "cell-snake-t2";
-                          else if (snakeTrail[2] && snakeTrail[2].r === rIdx && snakeTrail[2].c === cIdx) cellClass = "cell-snake-t3";
-
-                          return <div key={cIdx} className={`matrix-cell flex-shrink-0 ${cellClass}`} />;
-                        })}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* REFACTORED ADAPTIVE CARD HIGHLIGHT BARS */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  {[
-                    { value: "3+", label: "YEARS EXPERT" },
-                    { value: `${data.repos.length}+`, label: "ACTIVE PACKAGES" },
-                    { value: "∞", label: "CURIOSITY THREAD" },
-                    { value: "↑", label: "ALWAYS SCALING" }
-                  ].map((stat, i) => (
-                    <div key={i} className="bg-[#16171d] border border-[#2e303a] rounded-xl p-5 text-center">
-                      <div className="text-3xl font-extrabold text-[#f3f4f6] font-mono">{stat.value}</div>
-                      <div className="text-[10px] tracking-widest text-gray-500 font-mono uppercase mt-1">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* PLACEMENT FOR BALANCED SPLIT 3D LOGO SPHERES */}
-                <div className="orbs-layout-grid">
-                  <div className="orb-card-frame">
-                    <div className="w-full text-left text-xs font-mono text-[#6b6375] mb-4">// Tools Stack I Use</div>
-                    <canvas ref={techCanvasRef} width={260} height={260} className="w-full max-w-[260px]" />
-                  </div>
-                  <div className="orb-card-frame">
-                    <div className="w-full text-left text-xs font-mono text-[#6b6375] mb-4">// Core Framework Frameworks</div>
-                    <canvas ref={aiCanvasRef} width={260} height={260} className="w-full max-w-[260px]" />
-                  </div>
-                </div>
-
+          <div className="flex-1 overflow-y-auto">
+            {activeSidebar === 'explorer' && (
+              <div className="p-3">
+                <FileExplorer activeTab={activeTab} handleFileClick={handleFileClick} />
               </div>
-            ) : (
-              /* CLEAN ARCHITECTURE GRID MATCHING PROJECTS OUTLINE VIEW */
-              <div className="text-left space-y-6 animate-fadeIn">
-                <div>
-                  <h2 className="text-2xl font-bold text-[#f3f4f6] font-mono m-0 border-b-0 p-0">// Repositories Index Data</h2>
-                  <p className="text-xs text-gray-500 mt-1">Live synchronized data packets pulled via FastAPI endpoints.</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {data.repos.map((repo) => (
-                    <div key={repo.id} className="bg-[#16171d] border border-[#2e303a] rounded-xl p-6 flex flex-col justify-between hover:border-[#c084fc]/50 transition-all duration-300">
-                      <div>
-                        <a href={repo.html_url} target="_blank" rel="noreferrer" className="text-[#58a6ff] font-mono font-bold text-base hover:underline truncate block">
-                          {repo.name}
-                        </a>
-                        <p className="text-xs text-gray-400 mt-2 line-clamp-3 leading-relaxed">
-                          {repo.description || "No description overview compiled for this open source repository configuration block."}
-                        </p>
+            )}
+
+            {activeSidebar === 'search' && (
+              <div>
+                <input type="text" placeholder="Search text in workspace..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-input-field" />
+                <div className="search-results-list">
+                  <div className="text-[10px] text-gray-500 uppercase tracking-widest mb-2 px-2">Files Containing Matches</div>
+                  {[
+                    { file: 'home.tsx', text: 'welcome to my interactive frontend shell', line: 1 },
+                    { file: 'projects.js', text: 'Live synchronized repositories data', line: 2 },
+                    { file: 'skills.json', text: '"React", "FastAPI", "Docker"', line: 4 },
+                    { file: 'experience.ts', text: '3+ Years Expert System Architect', line: 1 },
+                    { file: 'about.html', text: 'Bio profile info overview', line: 10 }
+                  ]
+                  .filter(item => item.text.toLowerCase().includes(searchQuery.toLowerCase()) || item.file.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map((item, idx) => (
+                    <div key={idx} className="search-item" onClick={() => handleFileClick(item.file)}>
+                      <div className="flex justify-between text-xs text-[#58a6ff] font-semibold">
+                        <span>{item.file}</span>
+                        <span className="text-[10px] text-gray-500">line {item.line}</span>
                       </div>
-                      <div className="mt-6 pt-3 border-t border-[#2e303a]/40 flex items-center text-[11px] font-mono text-gray-500">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#c084fc] mr-2" />
-                        {repo.language || "System Logic"}
+                      <div className="text-[11px] text-gray-400 mt-1 font-mono truncate">
+                        {item.text}
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            {activeSidebar === 'git' && (
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  <div className="git-changes-title">Changes (Simulated Git Engine)</div>
+                  <div className="git-changes-list">
+                    <div className="git-item text-yellow-500 hover:bg-white/5">
+                      <span className="font-mono">✍ App.jsx</span>
+                      <span className="text-[10px] bg-yellow-500/10 px-1 border border-yellow-500/30 rounded font-bold">M</span>
+                    </div>
+                    <div className="git-item text-yellow-500 hover:bg-white/5">
+                      <span className="font-mono">✍ App.css</span>
+                      <span className="text-[10px] bg-yellow-500/10 px-1 border border-yellow-500/30 rounded font-bold">M</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="git-commit-container">
+                  <textarea placeholder="Message..." value={commitMessage} onChange={(e) => setCommitMessage(e.target.value)} className="git-commit-input" />
+                  <button onClick={handleCommitSubmit} disabled={isCommitted} className="git-commit-btn">
+                    {isCommitted ? "Syncing commits..." : "Commit changes"}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeSidebar === 'debug' && (
+              <div className="p-4 space-y-4">
+                <button className="flex items-center justify-center gap-2 bg-[#27c93f] hover:bg-[#20a332] text-black font-extrabold w-full py-2 rounded text-xs cursor-pointer shadow-md" onClick={() => alert("Simulated debugger started! Port listening at 5174.")}>
+                  Run & Debug (Vite)
+                </button>
+                <div className="space-y-3 font-mono text-xs">
+                  <div className="border-b border-[#2e303a] pb-1.5 text-gray-400 font-bold uppercase tracking-wider text-[10px]">Variables</div>
+                  <div className="pl-2 space-y-1">
+                    <div><span className="text-[#c084fc]">env</span>: "production"</div>
+                    <div><span className="text-[#c084fc]">port</span>: 5174</div>
+                    <div><span className="text-[#c084fc]">database</span>: "connected"</div>
+                    <div><span className="text-[#c084fc]">activeTheme</span>: "{theme}"</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeSidebar === 'extensions' && (
+              <div className="extensions-grid">
+                {[
+                  { name: "React Framework", version: "v19.2", desc: "Core declarative library for reactive component trees.", rating: "★★★★★", insts: "148M", icon: "⚛️" },
+                  { name: "Tailwind CSS Manager", version: "v4.0", desc: "Utility-first design engine tokens decorator.", rating: "★★★★★", insts: "94M", icon: "🎨" },
+                  { name: "FastAPI Backend", version: "v0.111", desc: "High performance asynchronous API core client helper.", rating: "★★★★☆", insts: "42M", icon: "⚡" }
+                ].map((ext, idx) => (
+                  <div key={idx} className="extension-card">
+                    <div className="extension-icon-frame">{ext.icon}</div>
+                    <div className="extension-details">
+                      <div className="extension-name">{ext.name}</div>
+                      <p className="extension-desc">{ext.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activeSidebar === 'coffee' && (
+              <div className="p-4 space-y-4 text-center">
+                <span className="text-4xl text-[#c084fc]">☕</span>
+                <h3 className="text-sm font-bold text-gray-300">Support Mohit</h3>
+                <a href="#sponsor" className="block w-full py-2 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/40 text-yellow-500 rounded text-xs font-bold font-mono transition-colors">Buy Me a Coffee</a>
+              </div>
+            )}
+
+            {activeSidebar === 'settings' && (
+              <div className="p-4">
+                <div className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-3">Color Themes</div>
+                <div className="space-y-2">
+                  {[
+                    { id: 'mohit', label: 'Default Mohit Dark' },
+                    { id: 'onedark', label: 'One Dark Pro Classic' },
+                    { id: 'dracula', label: 'Dracula Obsidian' }
+                  ].map((themeOpt) => (
+                    <button key={themeOpt.id} onClick={() => setTheme(themeOpt.id)} className={`theme-button font-mono text-xs ${theme === themeOpt.id ? 'active' : ''}`}>
+                      {theme === themeOpt.id ? "✔ " : "  "}{themeOpt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+        </aside>
+
+        {/* WORKSPACE CODE VIEWER PANEL */}
+        <main className="editor-main-panel">
+          
+          <div className="editor-tabs-bar">
+            {openTabs.map((tab) => (
+              <div key={tab} className={`editor-tab ${activeTab === tab ? 'active' : ''}`} onClick={() => handleFileClick(tab)}>
+                <span className="flex items-center gap-1.5 select-none">
+                  {tab === 'home.tsx' && <ReactIcon />}
+                  {tab === 'projects.js' && <JsIcon />}
+                  {tab === 'skills.json' && <JsonIcon />}
+                  {tab === 'about.html' && <HtmlIcon />}
+                  {tab === 'experience.ts' && <TsIcon />}
+                  {tab === 'contact.css' && <CssIcon />}
+                  {tab === 'README.md' && <MarkdownIcon />}
+                  {tab === 'hobbies.md' && <MarkdownIcon />}
+                  {tab === '.gitignore' && <GitIcon />}
+                  {tab === '.env' && <EnvIcon />}
+                  <span>{tab}</span>
+                </span>
+                <span className="text-gray-500 hover:text-white ml-2 text-[10px] cursor-pointer font-bold select-none" onClick={(e) => handleCloseTab(tab, e)}>×</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Breadcrumb path */}
+          <div className="bg-[#16171d]/20 border-b border-[#2e303a] px-5 py-1.5 text-xs text-gray-500 flex gap-2 font-mono">
+            <span>rmohit9</span>
+            <span>&gt;</span>
+            <span>src</span>
+            <span>&gt;</span>
+            <span>app</span>
+            <span>&gt;</span>
+            <span className="text-gray-400 font-semibold">{activeTab}</span>
+          </div>
+
+          {/* Line numbers gutter and Content viewport */}
+          <div className="editor-code-container">
+            <div className="editor-gutter">
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} className="editor-gutter-line">{i + 1}</span>
+              ))}
+            </div>
+
+            <div className="editor-workspace-file-content">
+              {activeTab === 'home.tsx' && (
+                <HomeView handleFileClick={handleFileClick} />
+              )}
+
+              {activeTab === 'projects.js' && (
+                <ProjectsView data={data} />
+              )}
+
+              {activeTab === 'skills.json' && (
+                <SkillsView />
+              )}
+
+              {activeTab === 'about.html' && (
+                <AboutView data={data} />
+              )}
+
+              {activeTab === 'experience.ts' && (
+                <ExperienceView />
+              )}
+
+              {activeTab === 'contact.css' && (
+                <ContactView data={data} />
+              )}
+
+              {activeTab === '.gitignore' && (
+                <GitignoreView />
+              )}
+
+              {activeTab === 'README.md' && (
+                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-fadeIn md:max-w-2xl">
+                  <span className="text-[#6a9955]">// README.md - Description</span>
+                  <pre className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl overflow-x-auto leading-relaxed">
+                    {`# Mohit Raut Portfolio
+
+An interactive VS Code-inspired personal portfolio developer template.
+Built using React, FastAPI, and Tailwind CSS.
+Includes orbital tech visualizations and canvas gravity animations.`}
+                  </pre>
+                </div>
+              )}
+
+              {activeTab === 'hobbies.md' && (
+                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-fadeIn md:max-w-2xl">
+                  <span className="text-[#6a9955]">// hobbies.md - Outside of work interest</span>
+                  <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl space-y-3">
+                    <p>🎮 Gaming & Simulation engines</p>
+                    <p>📚 Technical blogs, AI research papers</p>
+                    <p>✈ Exploring geography & historical architectural frameworks</p>
+                    <p>☕ Gourmet coffee roasting experiments</p>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === '.env' && (
+                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-fadeIn md:max-w-2xl">
+                  <span className="text-[#6a9955]"># Environment Configuration variables</span>
+                  <pre className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl overflow-x-auto text-[#cbcb41]">
+                    {`PORT=5174
+NODE_ENV=production
+REACT_APP_API_URL=http://localhost:8000
+GITHUB_USER=rmohit9`}
+                  </pre>
+                </div>
+              )}
+            </div>
           </div>
         </main>
       </div>
@@ -293,14 +459,30 @@ function App() {
       {/* 3. SYSTEM STATS FOOTER BAR */}
       <footer className="editor-status-bar font-mono">
         <div className="flex gap-4 items-center">
-          <span className="bg-[#16171d] text-[#27c93f] px-2 py-0.5 rounded text-[10px] font-bold">✔ main*</span>
-          <span>Environment: Production</span>
-          <span>Port: 5173</span>
+          <span className="bg-[#16171d]/60 text-[#27c93f] px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1">
+            <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+            main*
+          </span>
+          <span className="hidden sm:inline">Environment: production</span>
+          <span className="hidden sm:inline">Port: 5174</span>
+          <span className="text-purple-400 hover:text-purple-300 cursor-pointer flex items-center gap-1" onClick={() => setActiveSidebar('git')}>
+            <span>🔀</span> Sync
+          </span>
         </div>
-        <div className="flex gap-6">
-          <span>Engine: React Vite</span>
-          <span>Prettier: Active</span>
-          <span>Origin: {data.profile.location}</span>
+        <div className="flex gap-4 md:gap-6 items-center">
+          <span className="hidden md:inline">Language: {
+            activeTab.endsWith('.tsx') ? 'TypeScript React' :
+            activeTab.endsWith('.js') ? 'JavaScript' :
+            activeTab.endsWith('.html') ? 'HTML' :
+            activeTab.endsWith('.ts') ? 'TypeScript' :
+            activeTab.endsWith('.css') ? 'CSS' : 'JSON'
+          }</span>
+          <span>UTF-8</span>
+          <span className="hidden sm:inline">LF</span>
+          <span className="bg-purple-600/30 px-2 py-0.5 rounded text-[10px] text-purple-200 flex items-center gap-1 font-bold">
+            ❤️ Mohit Dark
+          </span>
+          <span>{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
         </div>
       </footer>
 
