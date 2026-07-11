@@ -17,13 +17,13 @@ export const HomeView = ({ handleFileClick }) => {
         {/* Badges row */}
         <div className="flex flex-wrap gap-3 items-center justify-between select-none w-full pl-2 pr-2 md:pr-0 reveal-item delay-150">
           <span className="flex items-center gap-1.5 px-3.5 py-1 bg-[#16171d]/85 border border-[#2e303a] rounded-full text-xs font-mono text-gray-300">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> FullStack Engineer
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> AI Engineer
           </span>
           <span className="flex items-center gap-1.5 px-3.5 py-1 bg-[#16171d]/85 border border-[#2e303a] rounded-full text-xs font-mono text-gray-300">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> AI Engineering
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> ML Engineering
           </span>
           <span className="flex items-center gap-1.5 px-3.5 py-1 bg-[#16171d]/85 border border-[#2e303a] rounded-full text-xs font-mono text-gray-300">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> Data Engineer
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> Data Science
           </span>
           <span 
             className="flex items-center gap-1.5 px-3.5 py-1 border rounded-full text-xs font-mono font-semibold"
@@ -33,7 +33,7 @@ export const HomeView = ({ handleFileClick }) => {
               backgroundColor: 'rgba(255, 255, 255, 0.02)' 
             }}
           >
-            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> @ PartexAI
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> @ GHRCE, Nagpur
           </span>
         </div>
 
