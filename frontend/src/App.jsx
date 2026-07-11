@@ -4,8 +4,10 @@ import './App.css';
 
 // Import Custom Modular Components
 import FileExplorer from './components/FileExplorer';
+import TargetCursor from './components/TargetCursor';
+import CommandPalette from './components/CommandPalette';
 import {
-  ReactIcon,
+  PyIcon,
   HtmlIcon,
   JsIcon,
   TsIcon,
@@ -26,8 +28,8 @@ import ContactView from './components/pages/ContactView';
 import GitignoreView from './components/pages/GitignoreView';
 
 const routeToFileMap = {
-  '/': 'home.tsx',
-  '/home': 'home.tsx',
+  '/': 'home.py',
+  '/home': 'home.py',
   '/about': 'about.html',
   '/projects': 'projects.js',
   '/skills': 'skills.json',
@@ -40,7 +42,7 @@ const routeToFileMap = {
 };
 
 const fileToRouteMap = {
-  'home.tsx': '/home',
+  'home.py': '/home',
   'about.html': '/about',
   'projects.js': '/projects',
   'skills.json': '/skills',
@@ -59,18 +61,31 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  const activeTab = routeToFileMap[location.pathname] || 'home.tsx';
-  const [openTabs, setOpenTabs] = useState(['home.tsx', 'projects.js']);
+  const activeTab = routeToFileMap[location.pathname] || 'home.py';
+  const [openTabs, setOpenTabs] = useState(['home.py', 'projects.js']);
   const [theme, setTheme] = useState('mohit');
   const [activeSidebar, setActiveSidebar] = useState('explorer');
   const [searchQuery, setSearchQuery] = useState('');
   const [commitMessage, setCommitMessage] = useState('');
   const [isCommitted, setIsCommitted] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  // Global keyboard shortcut listener for Ctrl+P / Cmd+P
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault();
+        setIsSearchModalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Sync route path changes to open tabs
   useEffect(() => {
     const currentPath = location.pathname;
-    const fileName = routeToFileMap[currentPath] || 'home.tsx';
+    const fileName = routeToFileMap[currentPath] || 'home.py';
     if (!openTabs.includes(fileName)) {
       setOpenTabs((prev) => [...prev, fileName]);
     }
@@ -136,6 +151,7 @@ function App() {
 
   return (
     <div className={`editor-shell select-none theme-${theme}`}>
+      <TargetCursor />
       
       {/* 1. TOP APP MENU ACTION BAR */}
       <header className="editor-menu-bar justify-between">
@@ -156,10 +172,9 @@ function App() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs bg-[#0d1117]/80 hover:bg-[#0d1117] px-4 py-1.5 rounded-md border border-[#2e303a] w-72 md:w-96 text-left cursor-pointer transition-colors relative" onClick={() => setActiveSidebar('search')}>
-          <svg className="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          <span className="text-gray-400 truncate">rmohit9 : portfolio — src/app/{activeTab}</span>
-          <span className="absolute right-2 top-1.5 text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.2 rounded border border-gray-700">Ctrl P</span>
+        <div className="flex items-center justify-between text-[11px] bg-[#0d1117]/80 hover:bg-[#0d1117] px-2.5 py-0.5 rounded border border-[#2e303a]/60 w-56 md:w-72 text-left cursor-pointer transition-colors relative h-6" onClick={() => setIsSearchModalOpen(true)}>
+          <span className="text-gray-400 truncate font-mono text-center w-full pr-6">rmohit9 : portfolio</span>
+          <span className="absolute right-1.5 top-0.5 text-[9px] text-gray-500 bg-gray-800/80 px-1 py-0.1 rounded border border-gray-700">Ctrl P</span>
         </div>
 
         <div className="flex gap-3 text-gray-400 items-center">
@@ -178,38 +193,38 @@ function App() {
         <nav className="activity-bar">
           <div className="activity-group">
             <div className={`activity-icon ${activeSidebar === 'explorer' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'explorer' ? null : 'explorer')} title="Explorer">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M16 4H4v16h12V4z" /><path d="M8 2h10v16M20 6h-2M20 10h-2" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M16 4H4v16h12V4z" /><path d="M8 2h10v16M20 6h-2M20 10h-2" /></svg>
             </div>
-            <div className={`activity-icon ${activeSidebar === 'search' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'search' ? null : 'search')} title="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+            <div className={`activity-icon ${isSearchModalOpen ? 'active' : ''}`} onClick={() => setIsSearchModalOpen(true)} title="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
             </div>
             <div className={`activity-icon ${activeSidebar === 'git' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'git' ? null : 'git')} title="Source Control">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="18" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 15V9a4 4 0 0 0-4-4H9" /><line x1="6" y1="9" x2="6" y2="15" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><circle cx="18" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 15V9a4 4 0 0 0-4-4H9" /><line x1="6" y1="9" x2="6" y2="15" /></svg>
               <span className="activity-icon-badge">3</span>
             </div>
             <div className={`activity-icon ${activeSidebar === 'debug' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'debug' ? null : 'debug')} title="Run and Debug">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M8 5v14l11-7z" /><path d="M12 2v3M12 19v3M5 12h3M16 12h3" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M8 5v14l11-7z" /><path d="M12 2v3M12 19v3M5 12h3M16 12h3" /></svg>
             </div>
             <div className={`activity-icon ${activeSidebar === 'extensions' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'extensions' ? null : 'extensions')} title="Extensions">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[20px] h-[20px]"><rect x="4" y="13" width="6" height="6" /><rect x="13" y="4" width="6" height="6" /><rect x="13" y="13" width="6" height="6" /><rect x="5" y="5" width="4" height="4" strokeWidth="1.2" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><rect x="4" y="13" width="6" height="6" /><rect x="13" y="4" width="6" height="6" /><rect x="13" y="13" width="6" height="6" /><rect x="5" y="5" width="4" height="4" strokeWidth="1.2" /></svg>
             </div>
           </div>
           
           <div className="activity-group">
             <div className={`activity-icon ${activeSidebar === 'coffee' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'coffee' ? null : 'coffee')} title="Support / Sponsor">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="2" x2="6" y2="5" /><line x1="10" y1="2" x2="10" y2="5" /><line x1="14" y1="2" x2="14" y2="5" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="2" x2="6" y2="5" /><line x1="10" y1="2" x2="10" y2="5" /><line x1="14" y1="2" x2="14" y2="5" /></svg>
             </div>
             <div className={`activity-icon ${activeSidebar === 'settings' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'settings' ? null : 'settings')} title="Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
             </div>
           </div>
         </nav>
 
         {/* SIDEBAR MAIN DRAWER VIEW */}
         <aside className={`editor-sidebar ${!activeSidebar ? 'collapsed' : ''}`}>
-          <div className="p-3 font-bold tracking-wider text-gray-400 text-xs uppercase border-b border-[#2e303a] flex justify-between items-center">
+          <div className={`p-2.5 px-3 pb-1 font-bold tracking-wider text-gray-400 text-[10px] uppercase flex justify-between items-center ${activeSidebar === 'explorer' ? 'pb-2' : 'border-b border-[#2e303a]'}`}>
             <span>
-              {activeSidebar === 'explorer' && "Explorer: Portfolio"}
+              {activeSidebar === 'explorer' && "PORTFOLIO"}
               {activeSidebar === 'search' && "Search Workspace"}
               {activeSidebar === 'git' && "Source Control (Git)"}
               {activeSidebar === 'debug' && "Run and Debug"}
@@ -220,10 +235,12 @@ function App() {
             <button className="text-gray-500 hover:text-gray-200 cursor-pointer" onClick={() => setActiveSidebar(null)}>×</button>
           </div>
 
-          <div className="flex-1 overflow-y-auto">
+          <div className={`flex-1 ${activeSidebar === 'explorer' ? 'flex flex-col overflow-hidden' : 'overflow-y-auto'}`}>
             {activeSidebar === 'explorer' && (
-              <div className="p-3">
-                <FileExplorer activeTab={activeTab} handleFileClick={handleFileClick} />
+              <div className="p-2.5 pt-0 flex-1 flex flex-col overflow-hidden">
+                <div className="border border-[#2e303a]/75 rounded-lg p-2 bg-[#0d1117]/35 flex-1 overflow-y-auto">
+                  <FileExplorer activeTab={activeTab} handleFileClick={handleFileClick} />
+                </div>
               </div>
             )}
 
@@ -233,7 +250,7 @@ function App() {
                 <div className="search-results-list">
                   <div className="text-[10px] text-gray-500 uppercase tracking-widest mb-2 px-2">Files Containing Matches</div>
                   {[
-                    { file: 'home.tsx', text: 'welcome to my interactive frontend shell', line: 1 },
+                    { file: 'home.py', text: 'welcome to my interactive frontend shell', line: 1 },
                     { file: 'projects.js', text: 'Live synchronized repositories data', line: 2 },
                     { file: 'skills.json', text: '"React", "FastAPI", "Docker"', line: 4 },
                     { file: 'experience.ts', text: '3+ Years Expert System Architect', line: 1 },
@@ -324,18 +341,44 @@ function App() {
             )}
 
             {activeSidebar === 'settings' && (
-              <div className="p-4">
-                <div className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-3">Color Themes</div>
-                <div className="space-y-2">
-                  {[
-                    { id: 'mohit', label: 'Default Mohit Dark' },
-                    { id: 'onedark', label: 'One Dark Pro Classic' },
-                    { id: 'dracula', label: 'Dracula Obsidian' }
-                  ].map((themeOpt) => (
-                    <button key={themeOpt.id} onClick={() => setTheme(themeOpt.id)} className={`theme-button font-mono text-xs ${theme === themeOpt.id ? 'active' : ''}`}>
-                      {theme === themeOpt.id ? "✔ " : "  "}{themeOpt.label}
-                    </button>
-                  ))}
+              <div className="flex flex-col h-full justify-between">
+                <div className="p-3 space-y-4">
+                  <div>
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Color Themes</div>
+                    <div className="space-y-1">
+                      {[
+                        { id: 'mohit', label: 'Mohit Dark', icon: '💜' },
+                        { id: 'onedark', label: 'One Dark Pro', icon: '💙' },
+                        { id: 'synthwave', label: 'Synthwave \'84', icon: '💗' },
+                        { id: 'dracula', label: 'Dracula Classic', icon: '💙' },
+                        { id: 'github', label: 'GitHub Dark', icon: '💙' },
+                        { id: 'nord', label: 'Nord Frost', icon: '🩵' },
+                        { id: 'gruvbox', label: 'Gruvbox Rust', icon: '🧡' }
+                      ].map((themeOpt) => (
+                        <button 
+                          key={themeOpt.id} 
+                          onClick={() => setTheme(themeOpt.id)} 
+                          className={`theme-button font-mono text-[11px] ${theme === themeOpt.id ? 'active' : ''}`}
+                        >
+                          <span className="mr-2">{themeOpt.icon}</span> {themeOpt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-2">Quick Actions</div>
+                    <div className="space-y-1 font-mono text-[11px]">
+                      <div className="flex justify-between items-center px-2 py-1 hover:bg-white/5 rounded cursor-pointer text-gray-300" onClick={() => alert("Downloading resume...")}>
+                        <span>📥 Download Resume</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 border-t border-[#2e303a]/60 text-[9.5px] font-mono text-gray-500 space-y-0.5">
+                  <div>Portfolio v3.0 - React + Vite + Tailwind</div>
+                  <div>Made with 💖 by <span className="text-[#58a6ff]">Mohit Raut</span></div>
                 </div>
               </div>
             )}
@@ -350,7 +393,7 @@ function App() {
             {openTabs.map((tab) => (
               <div key={tab} className={`editor-tab ${activeTab === tab ? 'active' : ''}`} onClick={() => handleFileClick(tab)}>
                 <span className="flex items-center gap-1.5 select-none">
-                  {tab === 'home.tsx' && <ReactIcon />}
+                  {tab === 'home.py' && <PyIcon />}
                   {tab === 'projects.js' && <JsIcon />}
                   {tab === 'skills.json' && <JsonIcon />}
                   {tab === 'about.html' && <HtmlIcon />}
@@ -368,7 +411,7 @@ function App() {
           </div>
 
           {/* Breadcrumb path */}
-          <div className="bg-[#16171d]/20 border-b border-[#2e303a] px-5 py-1.5 text-xs text-gray-500 flex gap-2 font-mono">
+          <div className="bg-[#16171d]/20 border-b border-[#2e303a] px-4 py-1 text-[11px] text-gray-500 flex gap-2 font-mono">
             <span>rmohit9</span>
             <span>&gt;</span>
             <span>src</span>
@@ -387,7 +430,7 @@ function App() {
             </div>
 
             <div className="editor-workspace-file-content">
-              {activeTab === 'home.tsx' && (
+              {activeTab === 'home.py' && (
                 <HomeView handleFileClick={handleFileClick} />
               )}
 
@@ -486,6 +529,14 @@ GITHUB_USER=rmohit9`}
         </div>
       </footer>
 
+      <CommandPalette 
+        isOpen={isSearchModalOpen} 
+        onClose={() => setIsSearchModalOpen(false)} 
+        onFileSelect={(fileName) => {
+          handleFileClick(fileName);
+          setIsSearchModalOpen(false);
+        }} 
+      />
     </div>
   );
 }

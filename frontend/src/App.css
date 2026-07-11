@@ -69,6 +69,51 @@ html, body {
   --tab-inactive-bg: #1e1f29;
 }
 
+.editor-shell.theme-github {
+  --editor-bg: #24292e;
+  --sidebar-bg: #1f2428;
+  --activity-bg: #1b1f23;
+  --border-color: #1b1f23;
+  --text-muted: #959da5;
+  --text-bright: #e1e4e8;
+  --accent-light: #79b8ff;
+  --status-bg: #24292e;
+  --status-text: #e1e4e8;
+  --copilot-bg: #1f2428;
+  --tab-active-bg: #24292e;
+  --tab-inactive-bg: #1f2428;
+}
+
+.editor-shell.theme-nord {
+  --editor-bg: #2e3440;
+  --sidebar-bg: #242933;
+  --activity-bg: #20242c;
+  --border-color: #3b4252;
+  --text-muted: #d8dee9;
+  --text-bright: #eceff4;
+  --accent-light: #88c0d0;
+  --status-bg: #242933;
+  --status-text: #88c0d0;
+  --copilot-bg: #242933;
+  --tab-active-bg: #2e3440;
+  --tab-inactive-bg: #242933;
+}
+
+.editor-shell.theme-gruvbox {
+  --editor-bg: #282828;
+  --sidebar-bg: #1d2021;
+  --activity-bg: #1d2021;
+  --border-color: #3c3836;
+  --text-muted: #a89984;
+  --text-bright: #fbf1c7;
+  --accent-light: #fe8019;
+  --status-bg: #1d2021;
+  --status-text: #fe8019;
+  --copilot-bg: #1d2021;
+  --tab-active-bg: #282828;
+  --tab-inactive-bg: #1d2021;
+}
+
 /* 1. Immersive Edge-to-Edge Screen Framework */
 .editor-shell {
   width: 100vw;
@@ -87,11 +132,11 @@ html, body {
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 4px 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
   user-select: none;
-  height: 35px;
+  height: 30px;
   box-sizing: border-box;
 }
 
@@ -105,14 +150,14 @@ html, body {
 
 /* Vertical Activity Bar Drawer */
 .activity-bar {
-  width: 50px;
+  width: 42px;
   background-color: var(--activity-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
+  padding: 10px 0;
   height: 100%;
   box-sizing: border-box;
 }
@@ -120,7 +165,7 @@ html, body {
 .activity-group {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   width: 100%;
   align-items: center;
 }
@@ -160,12 +205,12 @@ html, body {
 
 /* File Structure Navigation Left Sidebar */
 .editor-sidebar {
-  width: 250px;
+  width: 230px;
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  font-size: 13px;
+  font-size: 10.5px;
   user-select: none;
   height: 100%;
   overflow: hidden;
@@ -192,19 +237,19 @@ html, body {
   border-bottom: 1px solid var(--border-color);
   display: flex;
   user-select: none;
-  height: 35px;
+  height: 30px;
   box-sizing: border-box;
 }
 
 .editor-tab {
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-right: 1px solid var(--border-color);
   color: var(--text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 11.5px;
   background-color: var(--tab-inactive-bg);
   transition: background-color 0.15s ease;
 }
@@ -296,7 +341,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 4px 16px;
-  font-size: 12px;
+  font-size: 11px;
   user-select: none;
   height: 22px;
 }
@@ -335,7 +380,7 @@ html, body {
 
 .editor-workspace-file-content {
   flex: 1;
-  padding: 40px;
+  padding: 16px 40px 40px 40px;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -432,8 +477,8 @@ html, body {
   border: 1px solid var(--border-color);
   color: var(--text-bright);
   border-radius: 4px;
-  padding: 6px 10px;
-  font-size: 12px;
+  padding: 5px 8px;
+  font-size: 11px;
   outline: none;
   box-sizing: border-box;
 }
@@ -480,8 +525,8 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: 3px 6px;
+  font-size: 11px;
   border-radius: 4px;
 }
 
@@ -502,22 +547,22 @@ html, body {
   border: 1px solid var(--border-color);
   color: var(--text-bright);
   border-radius: 4px;
-  padding: 6px 8px;
-  font-size: 12px;
+  padding: 5px 8px;
+  font-size: 11px;
   outline: none;
   resize: none;
-  height: 60px;
+  height: 50px;
 }
 
 .git-commit-btn {
   background-color: var(--accent-light);
   color: var(--editor-bg);
   font-weight: bold;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
   transition: opacity 0.15s ease;
 }
@@ -572,7 +617,7 @@ html, body {
 .extension-name {
   font-weight: bold;
   color: var(--text-bright);
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -601,24 +646,26 @@ html, body {
 
 .theme-button {
   width: 100%;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border-color);
-  background-color: rgba(255, 255, 255, 0.03);
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background-color: transparent;
   color: var(--text-bright);
   text-align: left;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
 }
 
 .theme-button:hover {
-  border-color: var(--accent-light);
-  background-color: rgba(255, 255, 255, 0.07);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .theme-button.active {
-  border-color: var(--accent-light);
-  background-color: rgba(192, 132, 252, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+  color: var(--accent-light, #58a6ff);
 }
 
 /* Concentric Orbital Structures Animation */
@@ -722,3 +769,29 @@ html, body {
   -webkit-text-stroke: 1px var(--text-bright);
   font-weight: 800;
 }
+
+/* Staggered reveal animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-item {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-75 { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-225 { animation-delay: 225ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-375 { animation-delay: 375ms; }
+.delay-450 { animation-delay: 450ms; }
+.delay-525 { animation-delay: 525ms; }
+.delay-600 { animation-delay: 600ms; }

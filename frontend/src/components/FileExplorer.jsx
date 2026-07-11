@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
-  ReactIcon,
+  FolderIcon,
+  PyIcon,
   HtmlIcon,
   JsIcon,
   TsIcon,
@@ -26,46 +27,44 @@ export const FileExplorer = ({ activeTab, handleFileClick }) => {
   };
 
   return (
-    <div className="space-y-1 font-mono text-xs select-none">
+    <div className="space-y-0.5 font-mono text-[10px] select-none text-gray-300">
       <div>
-        <div className="flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded text-gray-300 font-semibold" onClick={() => toggle('src')}>
-          <span className="text-[10px] text-gray-500 transform transition-transform duration-100" style={{ display: 'inline-block', transform: collapsed.src ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
-          <span className="text-[#e2c07d]">{collapsed.src ? "📁" : "📂"}</span>
+        <div className="flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded text-gray-300" onClick={() => toggle('src')}>
+          <FolderIcon />
           <span>src</span>
         </div>
 
         {!collapsed.src && (
-          <div className="pl-4 border-l border-[#2e303a]/60 ml-3.5 space-y-1">
+          <div className="pl-4 border-l border-[#2e303a]/60 ml-3 space-y-0.5">
             <div>
-              <div className="flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded text-gray-300 font-semibold" onClick={() => toggle('app')}>
-                <span className="text-[10px] text-gray-500 transform transition-transform duration-100" style={{ display: 'inline-block', transform: collapsed.app ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
-                <span className="text-[#e2c07d]">{collapsed.app ? "📁" : "📂"}</span>
+              <div className="flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded text-gray-300" onClick={() => toggle('app')}>
+                <FolderIcon />
                 <span>app</span>
               </div>
 
               {!collapsed.app && (
-                <div className="pl-4 border-l border-[#2e303a]/60 ml-3.5 space-y-0.5">
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'home.tsx' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('home.tsx')}>
-                    <ReactIcon />
-                    <span>home.tsx</span>
+                <div className="pl-4 border-l border-[#2e303a]/60 ml-3 space-y-0.5">
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'home.py' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('home.py')}>
+                    <PyIcon />
+                    <span>home.py</span>
                   </div>
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'about.html' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('about.html')}>
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'about.html' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('about.html')}>
                     <HtmlIcon />
                     <span>about.html</span>
                   </div>
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'projects.js' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('projects.js')}>
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'projects.js' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('projects.js')}>
                     <JsIcon />
                     <span>projects.js</span>
                   </div>
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'skills.json' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('skills.json')}>
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'skills.json' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('skills.json')}>
                     <JsonIcon />
                     <span>skills.json</span>
                   </div>
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'experience.ts' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('experience.ts')}>
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'experience.ts' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('experience.ts')}>
                     <TsIcon />
                     <span>experience.ts</span>
                   </div>
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'contact.css' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('contact.css')}>
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'contact.css' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('contact.css')}>
                     <CssIcon />
                     <span>contact.css</span>
                   </div>
@@ -74,28 +73,26 @@ export const FileExplorer = ({ activeTab, handleFileClick }) => {
             </div>
 
             <div>
-              <div className="flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded text-gray-300 font-semibold" onClick={() => toggle('components')}>
-                <span className="text-[10px] text-gray-500 transform transition-transform duration-100" style={{ display: 'inline-block', transform: collapsed.components ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
-                <span className="text-[#e2c07d]">{collapsed.components ? "📁" : "📂"}</span>
+              <div className="flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded text-gray-300" onClick={() => toggle('components')}>
+                <FolderIcon />
                 <span>components</span>
               </div>
 
               {!collapsed.components && (
-                <div className="pl-4 border-l border-[#2e303a]/60 ml-3.5 space-y-1">
+                <div className="pl-4 border-l border-[#2e303a]/60 ml-3 space-y-0.5">
                   <div>
-                    <div className="flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded text-gray-300 font-semibold" onClick={() => toggle('ui')}>
-                      <span className="text-[10px] text-gray-500 transform transition-transform duration-100" style={{ display: 'inline-block', transform: collapsed.ui ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
-                      <span className="text-[#e2c07d]">{collapsed.ui ? "📁" : "📂"}</span>
+                    <div className="flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded text-gray-300" onClick={() => toggle('ui')}>
+                      <FolderIcon />
                       <span>ui</span>
                     </div>
 
                     {!collapsed.ui && (
-                      <div className="pl-4 border-l border-[#2e303a]/60 ml-3.5 space-y-0.5">
-                        <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'README.md' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('README.md')}>
+                      <div className="pl-4 border-l border-[#2e303a]/60 ml-3 space-y-0.5">
+                        <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'README.md' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('README.md')}>
                           <MarkdownIcon />
                           <span>README.md</span>
                         </div>
-                        <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'hobbies.md' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('hobbies.md')}>
+                        <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === 'hobbies.md' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('hobbies.md')}>
                           <MarkdownIcon />
                           <span>hobbies.md</span>
                         </div>
@@ -107,19 +104,18 @@ export const FileExplorer = ({ activeTab, handleFileClick }) => {
             </div>
 
             <div>
-              <div className="flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded text-gray-300 font-semibold" onClick={() => toggle('config')}>
-                <span className="text-[10px] text-gray-500 transform transition-transform duration-100" style={{ display: 'inline-block', transform: collapsed.config ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
-                <span className="text-[#e2c07d]">{collapsed.config ? "📁" : "📂"}</span>
+              <div className="flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded text-gray-300" onClick={() => toggle('config')}>
+                <FolderIcon />
                 <span>config</span>
               </div>
 
               {!collapsed.config && (
-                <div className="pl-4 border-l border-[#2e303a]/60 ml-3.5 space-y-0.5">
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === '.gitignore' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('.gitignore')}>
+                <div className="pl-4 border-l border-[#2e303a]/60 ml-3 space-y-0.5">
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === '.gitignore' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('.gitignore')}>
                     <GitIcon />
                     <span>.gitignore</span>
                   </div>
-                  <div className={`flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded ${activeTab === '.env' ? 'bg-[#c084fc]/15 text-white font-semibold' : 'text-gray-400'}`} onClick={() => handleFileClick('.env')}>
+                  <div className={`flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded ${activeTab === '.env' ? 'bg-[#1d2d3e]/80 text-white font-semibold' : 'text-gray-400 hover:text-gray-200'}`} onClick={() => handleFileClick('.env')}>
                     <EnvIcon />
                     <span>.env</span>
                   </div>
@@ -128,9 +124,8 @@ export const FileExplorer = ({ activeTab, handleFileClick }) => {
             </div>
 
             <div>
-              <div className="flex items-center gap-1.5 py-1 px-2 cursor-pointer hover:bg-white/5 rounded text-gray-300 font-semibold" onClick={() => toggle('assets')}>
-                <span className="text-[10px] text-gray-500 transform transition-transform duration-100" style={{ display: 'inline-block', transform: collapsed.assets ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
-                <span className="text-[#e2c07d]">{collapsed.assets ? "📁" : "📂"}</span>
+              <div className="flex items-center gap-1.5 py-0.5 px-1.5 cursor-pointer hover:bg-white/5 rounded text-gray-300" onClick={() => toggle('assets')}>
+                <FolderIcon />
                 <span>assets</span>
               </div>
             </div>
@@ -141,4 +136,5 @@ export const FileExplorer = ({ activeTab, handleFileClick }) => {
     </div>
   );
 };
+
 export default FileExplorer;
