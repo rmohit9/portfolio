@@ -54,12 +54,25 @@ const fileToRouteMap = {
   '.env': '/env'
 };
 
+const defaultProfileData = {
+  profile: { 
+    name: "Mohit Raut", 
+    bio: "Building intelligent and scalable AI Solutions", 
+    followers: 24, 
+    location: "fulltime-Nagpur, Part-time-Hyderabad" 
+  },
+  repos: [
+    { id: 1, name: "Caption-Generator", description: "A deep learning model base that generates captions for images.", html_url: "https://github.com/rmohit9/Caption-Generator", language: "JavaScript" },
+    { id: 2, name: "Faq_RAG_Chatbot", description: "A Retrieval-Augmented Generation chatbot system configured to answer FAQs utilizing vector storage matching.", html_url: "https://github.com/rmohit9/Faq_RAG_Chatbot", language: "HTML" }
+  ]
+};
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(defaultProfileData);
+  const [loading, setLoading] = useState(false);
   
   const activeTab = routeToFileMap[location.pathname] || 'home.py';
   const [openTabs, setOpenTabs] = useState(['home.py', 'projects.js']);
@@ -91,28 +104,17 @@ function App() {
     }
   }, [location.pathname]);
 
-  // Fetch GitHub profile from FastAPI backend
+  // Fetch GitHub profile from FastAPI backend in the background
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/github-profile')
       .then((res) => res.json())
       .then((profileData) => {
-        setData(profileData);
-        setLoading(false);
+        if (profileData && profileData.profile) {
+          setData(profileData);
+        }
       })
       .catch(() => {
-        setData({
-          profile: { 
-            name: "Mohit Raut", 
-            bio: "Building intelligent and scalable AI Solutions", 
-            followers: 24, 
-            location: "fulltime-Nagpur, Part-time-Hyderabad" 
-          },
-          repos: [
-            { id: 1, name: "Caption-Generator", description: "A deep learning model base that generates captions for images.", html_url: "https://github.com/rmohit9/Caption-Generator", language: "JavaScript" },
-            { id: 2, name: "Faq_RAG_Chatbot", description: "A Retrieval-Augmented Generation chatbot system configured to answer FAQs utilizing vector storage matching.", html_url: "https://github.com/rmohit9/Faq_RAG_Chatbot", language: "HTML" }
-          ]
-        });
-        setLoading(false);
+        // Safe to ignore, we already initialized with defaults
       });
   }, []);
 
@@ -172,17 +174,17 @@ function App() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[11px] bg-[#0d1117]/80 hover:bg-[#0d1117] px-2.5 py-0.5 rounded border border-[#2e303a]/60 w-56 md:w-72 text-left cursor-pointer transition-colors relative h-6" onClick={() => setIsSearchModalOpen(true)}>
+        <div className="flex items-center justify-between text-[13px] bg-[#0d1117]/80 hover:bg-[#0d1117] px-2.5 py-0.5 rounded border border-[#2e303a]/60 w-64 md:w-80 text-left cursor-pointer transition-colors relative h-7" onClick={() => setIsSearchModalOpen(true)}>
           <span className="text-gray-400 truncate font-mono text-center w-full pr-6">rmohit9 : portfolio</span>
-          <span className="absolute right-1.5 top-0.5 text-[9px] text-gray-500 bg-gray-800/80 px-1 py-0.1 rounded border border-gray-700">Ctrl P</span>
+          <span className="absolute right-1.5 top-1 text-[11px] text-gray-500 bg-gray-800/80 px-1 py-0.1 rounded border border-gray-700">Ctrl P</span>
         </div>
 
         <div className="flex gap-3 text-gray-400 items-center">
           <button className="hover:text-white p-1 cursor-pointer transition-colors" title="Toggle Sidebar" onClick={() => setActiveSidebar(activeSidebar ? null : 'explorer')}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
           <span className="h-4 w-px bg-gray-700"></span>
-          <span className="text-[10px] text-gray-500 font-mono tracking-wider">v15.0</span>
+          <span className="text-[11px] text-gray-500 font-mono tracking-wider">v15.0</span>
         </div>
       </header>
 
@@ -193,36 +195,36 @@ function App() {
         <nav className="activity-bar">
           <div className="activity-group">
             <div className={`activity-icon ${activeSidebar === 'explorer' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'explorer' ? null : 'explorer')} title="Explorer">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M16 4H4v16h12V4z" /><path d="M8 2h10v16M20 6h-2M20 10h-2" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M16 4H4v16h12V4z" /><path d="M8 2h10v16M20 6h-2M20 10h-2" /></svg>
             </div>
             <div className={`activity-icon ${isSearchModalOpen ? 'active' : ''}`} onClick={() => setIsSearchModalOpen(true)} title="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
             </div>
             <div className={`activity-icon ${activeSidebar === 'git' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'git' ? null : 'git')} title="Source Control">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><circle cx="18" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 15V9a4 4 0 0 0-4-4H9" /><line x1="6" y1="9" x2="6" y2="15" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><circle cx="18" cy="18" r="3" /><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M18 15V9a4 4 0 0 0-4-4H9" /><line x1="6" y1="9" x2="6" y2="15" /></svg>
               <span className="activity-icon-badge">3</span>
             </div>
             <div className={`activity-icon ${activeSidebar === 'debug' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'debug' ? null : 'debug')} title="Run and Debug">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M8 5v14l11-7z" /><path d="M12 2v3M12 19v3M5 12h3M16 12h3" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M8 5v14l11-7z" /><path d="M12 2v3M12 19v3M5 12h3M16 12h3" /></svg>
             </div>
             <div className={`activity-icon ${activeSidebar === 'extensions' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'extensions' ? null : 'extensions')} title="Extensions">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><rect x="4" y="13" width="6" height="6" /><rect x="13" y="4" width="6" height="6" /><rect x="13" y="13" width="6" height="6" /><rect x="5" y="5" width="4" height="4" strokeWidth="1.2" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><rect x="4" y="13" width="6" height="6" /><rect x="13" y="4" width="6" height="6" /><rect x="13" y="13" width="6" height="6" /><rect x="5" y="5" width="4" height="4" strokeWidth="1.2" /></svg>
             </div>
           </div>
           
           <div className="activity-group">
             <div className={`activity-icon ${activeSidebar === 'coffee' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'coffee' ? null : 'coffee')} title="Support / Sponsor">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="2" x2="6" y2="5" /><line x1="10" y1="2" x2="10" y2="5" /><line x1="14" y1="2" x2="14" y2="5" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M18 8h1a4 4 0 0 1 0 8h-1" /><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" /><line x1="6" y1="2" x2="6" y2="5" /><line x1="10" y1="2" x2="10" y2="5" /><line x1="14" y1="2" x2="14" y2="5" /></svg>
             </div>
             <div className={`activity-icon ${activeSidebar === 'settings' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'settings' ? null : 'settings')} title="Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
             </div>
           </div>
         </nav>
 
         {/* SIDEBAR MAIN DRAWER VIEW */}
         <aside className={`editor-sidebar ${!activeSidebar ? 'collapsed' : ''}`}>
-          <div className={`p-2.5 px-3 pb-1 font-bold tracking-wider text-gray-400 text-[10px] uppercase flex justify-between items-center ${activeSidebar === 'explorer' ? 'pb-2' : 'border-b border-[#2e303a]'}`}>
+          <div className={`p-2.5 px-3 pb-1 font-bold tracking-wider text-gray-400 text-[12px] uppercase flex justify-between items-center ${activeSidebar === 'explorer' ? 'pb-2' : 'border-b border-[#2e303a]'}`}>
             <span>
               {activeSidebar === 'explorer' && "PORTFOLIO"}
               {activeSidebar === 'search' && "Search Workspace"}
@@ -358,7 +360,7 @@ function App() {
                         <button 
                           key={themeOpt.id} 
                           onClick={() => setTheme(themeOpt.id)} 
-                          className={`theme-button font-mono text-[11px] ${theme === themeOpt.id ? 'active' : ''}`}
+                          className={`theme-button font-mono text-[12.5px] ${theme === themeOpt.id ? 'active' : ''}`}
                         >
                           <span className="mr-2">{themeOpt.icon}</span> {themeOpt.label}
                         </button>
@@ -405,13 +407,13 @@ function App() {
                   {tab === '.env' && <EnvIcon />}
                   <span>{tab}</span>
                 </span>
-                <span className="text-gray-500 hover:text-white ml-2 text-[10px] cursor-pointer font-bold select-none" onClick={(e) => handleCloseTab(tab, e)}>×</span>
+                <span className="text-gray-500 hover:text-white ml-2 text-[12px] cursor-pointer font-bold select-none" onClick={(e) => handleCloseTab(tab, e)}>×</span>
               </div>
             ))}
           </div>
 
           {/* Breadcrumb path */}
-          <div className="bg-[#16171d]/20 border-b border-[#2e303a] px-4 py-1 text-[11px] text-gray-500 flex gap-2 font-mono">
+          <div className="bg-[#16171d]/20 border-b border-[#2e303a] px-4 py-1 text-[12px] text-gray-500 flex gap-2 font-mono">
             <span>rmohit9</span>
             <span>&gt;</span>
             <span>src</span>
@@ -502,7 +504,7 @@ GITHUB_USER=rmohit9`}
       {/* 3. SYSTEM STATS FOOTER BAR */}
       <footer className="editor-status-bar font-mono">
         <div className="flex gap-4 items-center">
-          <span className="bg-[#16171d]/60 text-[#27c93f] px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1">
+          <span className="bg-[#16171d]/60 text-[#27c93f] px-2 py-0.5 rounded text-[11.5px] font-bold flex items-center gap-1">
             <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
             main*
           </span>
@@ -522,7 +524,7 @@ GITHUB_USER=rmohit9`}
           }</span>
           <span>UTF-8</span>
           <span className="hidden sm:inline">LF</span>
-          <span className="bg-purple-600/30 px-2 py-0.5 rounded text-[10px] text-purple-200 flex items-center gap-1 font-bold">
+          <span className="bg-purple-600/30 px-2 py-0.5 rounded text-[11.5px] text-purple-200 flex items-center gap-1 font-bold">
             ❤️ Mohit Dark
           </span>
           <span>{new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}</span>

@@ -15,65 +15,77 @@ export const FolderIcon = () => (
   </svg>
 );
 
-// Official Python logo (blue & yellow snake)
+// Monochrome Python logo (interlocking snakes in gray-300 shades)
 export const PyIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none"
   >
     <path 
       d="M11.898 0C8.286 0 5.434 2.825 5.434 6.4c0 .324.03.639.068.95H11.9v1.3H2.8C1.25 8.65 0 9.875 0 11.4c0 1.55 1.25 2.75 2.8 2.75h2.6v-1.3c0-2.3 1.85-4.15 4.15-4.15h5.2v-3.3C14.75 2.825 11.9 0 11.9 0h-.002zm-3.35 2.1c.47 0 .85.38.85.85s-.38.85-.85.85c-.47 0-.85-.38-.85-.85s.38-.85.85-.85z" 
-      fill="#306998" 
+      fill="currentColor" 
     />
     <path 
       d="M12.1 24c3.612 0 6.464-2.825 6.464-6.4 0-.324-.03-.639-.068-.95H12.1v-1.3h9.1c1.55 0 2.8-1.225 2.8-2.75 0-1.55-1.25-2.75-2.8-2.75h-2.6v1.3c0 2.3-1.85 4.15-4.15 4.15h-5.2v3.3c0 2.575 2.85 5.4 2.85 5.4h.002zm3.35-2.1c-.47 0-.85-.38-.85-.85s.38-.85.85-.85c.47 0 .85.38.85.85s-.38.85-.85.85z" 
-      fill="#FFE873" 
+      fill="currentColor" 
+      opacity="0.6"
     />
   </svg>
 );
 
-// Official HTML5 logo shield (orange)
+// Monochrome HTML5 outline logo shield with white '5'
 export const HtmlIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none"
+    stroke="currentColor"
+    strokeWidth="2.0"
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
-    <path d="M1.5 0h21l-1.9 21.2L12 24 3.4 21.2 1.5 0z" fill="#E34F26" />
-    <path d="M12 2.2v19.6l6.8-1.9 1.5-16.4H12z" fill="#EF652A" />
-    <path d="M12 9.6H8.4l-.2-2.8H12V4H5.2l.7 8.4H12v-2.8zM12 16.7l-3.3-.9-.2-2.3H5.7l.4 5 5.9 1.6v-3.4zM12 9.6h3.4l-.3 3.6-3.1.9v2.8l5.8-1.6.6-6.9H12v2.8z" fill="#FFF" />
+    <path d="M12 2L4 5v11c0 4.5 3.5 8 8 8s8-3.5 8-8V5l-8-3z" />
+    <text x="7" y="16.5" fontFamily="sans-serif" fontWeight="900" fontSize="11" fill="currentColor" stroke="none">5</text>
   </svg>
 );
 
-// Official JavaScript logo (yellow square with black JS text)
+// Monochrome JavaScript outline logo square with 'JS'
 export const JsIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 flex-shrink-0 rounded-sm" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none"
+    stroke="currentColor"
+    strokeWidth="2.0"
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
-    <rect width="24" height="24" fill="#F7DF1E" />
-    <path d="M18.7 18.5c-.8.8-2 1.2-3.2 1.2-2.3 0-3.6-1.1-4.2-2.5l2-1.2c.4.8 1.1 1.4 2.1 1.4.9 0 1.5-.4 1.5-1.1 0-.7-.5-1-1.6-1.5l-.7-.3c-2.1-.9-3.2-2-3.2-4.1 0-2.1 1.6-3.7 4-3.7 1.8 0 3.1.7 3.8 2.1l-1.9 1.2c-.4-.7-.9-1-1.8-1-.8 0-1.3.4-1.3.9 0 .6.4.8 1.3 1.2l.7.3c2.4 1 3.5 2 3.5 4.3 0 2.2-1.4 3.8-3.1 3.8zM8.3 20c-2.2 0-3.5-1.2-4-2.5l2-1.2c.3.7.8 1.2 1.7 1.2.7 0 1.2-.3 1.2-1.3V7.7h2.3v8.6c0 2.3-1.4 3.7-3.2 3.7z" fill="#000" />
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <text x="5" y="16" fontFamily="sans-serif" fontWeight="900" fontSize="10" fill="currentColor" stroke="none">JS</text>
   </svg>
 );
 
-// Official TypeScript logo (blue square with white TS text)
+// Monochrome TypeScript outline logo square with 'TS'
 export const TsIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 flex-shrink-0 rounded-sm" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none"
+    stroke="currentColor"
+    strokeWidth="2.0"
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
-    <rect width="24" height="24" fill="#3178C6" />
-    <path d="M18.8 18.5c-.8.8-2 1.2-3.2 1.2-2.3 0-3.6-1.1-4.2-2.5l2-1.2c.4.8 1.1 1.4 2.1 1.4.9 0 1.5-.4 1.5-1.1 0-.7-.5-1-1.6-1.5l-.7-.3c-2.1-.9-3.2-2-3.2-4.1 0-2.1 1.6-3.7 4-3.7 1.8 0 3.1.7 3.8 2.1l-1.9 1.2c-.4-.7-.9-1-1.8-1-.8 0-1.3.4-1.3.9 0 .6.4.8 1.3 1.2l.7.3c2.4 1 3.5 2 3.5 4.3 0 2.2-1.4 3.8-3.1 3.8zM5.3 10H3V7.7h6.9V10H7.6v10H5.3V10z" fill="#FFF" />
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <text x="5" y="16" fontFamily="sans-serif" fontWeight="900" fontSize="10" fill="currentColor" stroke="none">TS</text>
   </svg>
 );
 
-// Official JSON curly braces icon (yellow)
+// Monochrome JSON outline curly braces icon
 export const JsonIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 text-[#cbcb41] flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
@@ -85,23 +97,26 @@ export const JsonIcon = () => (
   </svg>
 );
 
-// Official CSS3 logo shield (blue)
+// Monochrome CSS3 outline logo shield with '3'
 export const CssIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none"
+    stroke="currentColor"
+    strokeWidth="2.0"
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
-    <path d="M1.5 0h21l-1.9 21.2L12 24 3.4 21.2 1.5 0z" fill="#1572B6" />
-    <path d="M12 2.2v19.6l6.8-1.9 1.5-16.4H12z" fill="#33A9DC" />
-    <path d="M12 9.6H6.1l.4 4.5h5.5v-4.5zM12 4.1H5.4l.2 2.7H12V4.1zM12 16.8l-3.3-.9-.2-2.3H5.7l.4 5 5.9 1.6v-3.4zM12 9.6h5.8l-.5 5.7-5.3 1.5v-2.8l2.7-.7.2-2.2H12V9.6zM12 4.1h6.3l-.2 2.7H12V4.1z" fill="#FFF" />
+    <path d="M12 2L4 5v11c0 4.5 3.5 8 8 8s8-3.5 8-8V5l-8-3z" />
+    <text x="7" y="16.5" fontFamily="sans-serif" fontWeight="900" fontSize="11" fill="currentColor" stroke="none">3</text>
   </svg>
 );
 
-// Official Markdown icon (M↓ document layout)
+// Monochrome Markdown icon
 export const MarkdownIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 text-[#58a6ff] flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
@@ -114,10 +129,10 @@ export const MarkdownIcon = () => (
   </svg>
 );
 
-// Git logo (orange branch icon)
+// Monochrome Git branch outline icon
 export const GitIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 text-[#f05032] flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
@@ -133,10 +148,10 @@ export const GitIcon = () => (
   </svg>
 );
 
-// Settings/Configuration slider icon representing environmental configuration variables
+// Monochrome Settings/Configuration slider icon representing environmental configuration variables
 export const EnvIcon = () => (
   <svg 
-    className="w-3.5 h-3.5 text-[#e5c07b] flex-shrink-0" 
+    className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" 
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 

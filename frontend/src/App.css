@@ -133,10 +133,10 @@ html, body {
   display: flex;
   align-items: center;
   padding: 4px 12px;
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--text-muted);
   user-select: none;
-  height: 30px;
+  height: 36px;
   box-sizing: border-box;
 }
 
@@ -150,7 +150,7 @@ html, body {
 
 /* Vertical Activity Bar Drawer */
 .activity-bar {
-  width: 42px;
+  width: 50px;
   background-color: var(--activity-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -165,7 +165,7 @@ html, body {
 .activity-group {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
   width: 100%;
   align-items: center;
 }
@@ -205,12 +205,12 @@ html, body {
 
 /* File Structure Navigation Left Sidebar */
 .editor-sidebar {
-  width: 230px;
+  width: 270px;
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  font-size: 10.5px;
+  font-size: 12.5px;
   user-select: none;
   height: 100%;
   overflow: hidden;
@@ -237,19 +237,19 @@ html, body {
   border-bottom: 1px solid var(--border-color);
   display: flex;
   user-select: none;
-  height: 30px;
+  height: 36px;
   box-sizing: border-box;
 }
 
 .editor-tab {
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-right: 1px solid var(--border-color);
   color: var(--text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11.5px;
+  font-size: 13px;
   background-color: var(--tab-inactive-bg);
   transition: background-color 0.15s ease;
 }
@@ -341,9 +341,9 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 4px 16px;
-  font-size: 11px;
+  font-size: 12px;
   user-select: none;
-  height: 22px;
+  height: 26px;
 }
 
 /* Additional UI additions for rich VS Code Simulation */
@@ -363,24 +363,24 @@ html, body {
   border-right: 1px solid var(--border-color);
   text-align: right;
   padding-right: 12px;
-  padding-top: 40px;
+  padding-top: 12px;
   color: #5a5f78;
   font-family: var(--mono, monospace);
-  font-size: 13px;
+  font-size: 14px;
   user-select: none;
-  line-height: 24px;
+  line-height: 26px;
   flex-shrink: 0;
   box-sizing: border-box;
 }
 
 .editor-gutter-line {
   display: block;
-  height: 24px;
+  height: 26px;
 }
 
 .editor-workspace-file-content {
   flex: 1;
-  padding: 16px 40px 40px 40px;
+  padding: 12px 40px 40px 40px;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -412,7 +412,7 @@ html, body {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 8px;
-  font-size: 11.5px;
+  font-size: 13px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -450,7 +450,7 @@ html, body {
   color: var(--text-bright);
   border-radius: 4px;
   padding: 4px 8px;
-  font-size: 12px;
+  font-size: 13px;
   outline: none;
 }
 
@@ -461,7 +461,7 @@ html, body {
 .copilot-btn {
   background-color: var(--accent-light);
   color: var(--editor-bg);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
   border: none;
   border-radius: 4px;
@@ -478,7 +478,7 @@ html, body {
   color: var(--text-bright);
   border-radius: 4px;
   padding: 5px 8px;
-  font-size: 11px;
+  font-size: 13px;
   outline: none;
   box-sizing: border-box;
 }
@@ -508,7 +508,7 @@ html, body {
   padding: 12px 12px 6px 12px;
   font-weight: bold;
   color: var(--text-bright);
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
@@ -526,7 +526,7 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 3px 6px;
-  font-size: 11px;
+  font-size: 12.5px;
   border-radius: 4px;
 }
 
@@ -548,7 +548,7 @@ html, body {
   color: var(--text-bright);
   border-radius: 4px;
   padding: 5px 8px;
-  font-size: 11px;
+  font-size: 12px;
   outline: none;
   resize: none;
   height: 50px;
@@ -562,7 +562,7 @@ html, body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12.5px;
   text-align: center;
   transition: opacity 0.15s ease;
 }
@@ -617,14 +617,14 @@ html, body {
 .extension-name {
   font-weight: bold;
   color: var(--text-bright);
-  font-size: 11px;
+  font-size: 12.5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .extension-desc {
-  font-size: 10.5px;
+  font-size: 11.5px;
   color: var(--text-muted);
   line-height: 1.3;
   margin: 0;
@@ -795,3 +795,283 @@ html, body {
 .delay-450 { animation-delay: 450ms; }
 .delay-525 { animation-delay: 525ms; }
 .delay-600 { animation-delay: 600ms; }
+
+/* Social Link Pill custom styles to override default anchor tags */
+.social-link-pill {
+  color: var(--text-muted) !important;
+}
+
+.social-link-pill:hover {
+  color: var(--text-bright) !important;
+}
+
+/* Space-themed Project Info Cards styling */
+.space-card {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, rgba(22, 23, 29, 0.95) 48%, rgba(13, 17, 23, 0.95) 100%);
+  background-size: 300%, 300%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 1s ease;
+}
+
+.space-card .moon {
+  width: 50px;
+  height: 50px;
+  top: 15%;
+  right: 90px;
+  position: absolute;
+  fill: #8b949e;
+  transform: rotate(-20deg);
+  transition: all 1s ease;
+  pointer-events: none;
+}
+
+.space-card .rocket {
+  width: 50px;
+  height: 50px;
+  bottom: -2%;
+  left: -2%;
+  position: absolute;
+  fill: var(--accent-light);
+  transition: all 1.9s ease;
+  pointer-events: none;
+}
+
+.space-card .star {
+  position: absolute;
+  fill: none;
+  stroke: var(--accent-light);
+  stroke-width: 1.1; /* thin, clean, professional outline */
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.space-card .star-1 {
+  width: 70px;
+  height: 70px;
+  bottom: 50px;
+  left: -10px;
+  transition: all 1s ease;
+}
+
+.space-card .star-2 {
+  width: 100px;
+  height: 100px;
+  top: -10%;
+  left: -10%;
+  transition: all .5s ease;
+}
+
+.space-card .star-3 {
+  width: 70px;
+  height: 70px;
+  bottom: 5%;
+  right: -10px;
+  transition: all .3s ease;
+}
+
+.space-card .star-4 {
+  width: 15px;
+  height: 15px;
+  top: 4%;
+  right: 5px;
+  transition: all 1.4s ease;
+}
+
+.space-card .star-5 {
+  width: 15px;
+  height: 15px;
+  bottom: 24%;
+  right: 45%;
+  animation: space-card-rotate 3s normal linear infinite;
+}
+
+.space-card .star-6 {
+  width: 15px;
+  height: 15px;
+  top: 14%;
+  right: 25%;
+  animation: space-card-rotate 5s normal linear infinite;
+}
+
+.space-card .star-7 {
+  width: 25px;
+  height: 25px;
+  top: 34%;
+  right: 65%;
+  animation: space-card-rotate 5s normal linear infinite;
+}
+
+.space-card .card-info span {
+  font-size: 1.45em;
+  color: var(--text-bright);
+  font-family: var(--sans);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  transition: all 1s ease;
+  padding: 0 20px;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  pointer-events: none;
+  word-break: break-word;
+  display: block;
+}
+
+.space-card:hover {
+  background: linear-gradient(135deg, rgba(30, 31, 41, 0.95) 10%, rgba(13, 17, 23, 0.95) 90%);
+  background-size: 100%, 100%;
+  border-color: var(--accent-light);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+}
+
+.space-card:hover .star-1,
+.space-card:hover .star-3 {
+  stroke: var(--accent-light);
+  filter: drop-shadow(0 0 6px var(--accent-light));
+  transform: scale(1.2) rotate(10deg);
+}
+
+.space-card:hover .star-2,
+.space-card:hover .star-4,
+.space-card:hover .star-5,
+.space-card:hover .star-6,
+.space-card:hover .star-7 {
+  stroke: var(--accent-light);
+  filter: drop-shadow(0 0 6px var(--accent-light));
+  transform: scale(1.2) rotate(-150deg);
+}
+
+.space-card:hover .rocket {
+  transform: scale(.3) translate(450px, -450px) rotate(-260deg);
+  fill: var(--accent-light);
+  filter: drop-shadow(0 0 8px var(--accent-light));
+}
+
+.space-card:hover .moon {
+  width: 35px;
+  height: 35px;
+  fill: var(--text-bright);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+}
+
+.space-card:hover .card-info span {
+  font-size: 1.3em;
+  opacity: 0;
+}
+
+/* Glassmorphic Project Info Overlay */
+.project-info-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 17, 23, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateY(12px);
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.space-card:hover .project-info-overlay {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.project-info-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.project-info-content .project-title {
+  color: var(--accent-light) !important;
+  font-family: var(--mono, monospace);
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin-bottom: 2px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.project-info-content .project-title:hover {
+  text-decoration: underline;
+}
+
+.project-info-content .project-stats {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--mono, monospace);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.project-info-content .project-description {
+  font-size: 0.82rem;
+  color: var(--text-bright);
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  flex-grow: 1;
+}
+
+.project-info-content .project-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-family: var(--mono, monospace);
+  color: var(--text-muted);
+}
+
+.project-info-content .project-language-badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-light);
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.github-btn {
+  color: var(--text-muted) !important;
+  text-decoration: none !important;
+}
+
+.github-btn:hover {
+  color: var(--text-bright) !important;
+  text-decoration: none !important;
+}
+
+@keyframes space-card-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

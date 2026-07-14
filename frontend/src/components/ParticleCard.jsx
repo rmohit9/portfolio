@@ -3,7 +3,7 @@ import Galaxy from './Galaxy';
 export const ParticleCard = () => {
   return (
     <div 
-      className="group relative w-full h-[130px] border rounded-xl overflow-hidden shadow-inner flex items-center justify-center select-none cursor-pointer transition-all duration-300"
+      className="group relative w-full h-[150px] border rounded-xl overflow-hidden shadow-inner flex items-center justify-center select-none cursor-pointer transition-all duration-300"
       style={{ backgroundColor: 'var(--editor-bg)', borderColor: 'var(--border-color)' }}
     >
       <div className="absolute inset-0 w-full h-full">
