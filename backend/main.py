@@ -1,3 +1,4 @@
+import os
 import time
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,10 +7,23 @@ import re
 
 app = FastAPI()
 
-# Allow your React frontend to communicate with the backend
+# Allow public frontend clients (local and Vercel production) to communicate with the backend securely
+allowed_origins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+]
+
+# Support custom allowed origins from environments (e.g. Render production environment configurations)
+env_origins = os.getenv("ALLOWED_ORIGINS")
+if env_origins:
+    allowed_origins.extend([origin.strip() for origin in env_origins.split(",") if origin.strip()])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5173", "http://127.0.0.1:5174"],
+    allow_origins=allowed_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",  # Securely support Vercel preview/production URLs
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
