@@ -1,0 +1,22 @@
+{
+  "Caption-Generator": {
+    "description": "A deep learning image captioning application using CNN-LSTM architecture, featuring a Django/DRF backend and a React/Vite frontend.",
+    "tags": ["DEEP LEARNING", "COMPUTER VISION", "FULL STACK"],
+    "tech_stack": ["React", "Vite", "Django", "DRF", "Tailwind CSS", "Framer Motion", "TensorFlow"]
+  },
+  "Email_Verifier": {
+    "description": "A Django-based email verification engine featuring a 6-layer validation pipeline with Celery and Redis for async bulk email verification.",
+    "tags": ["BACKEND", "ASYNC PROCESSING", "API"],
+    "tech_stack": ["Django", "DRF", "Celery", "Redis", "PostgreSQL", "Tailwind CSS"]
+  },
+  "Faq_RAG_Chatbot": {
+    "description": "An AI chatbot application leveraging Django Channels and Daphne for real-time WebSocket communication, integrated with the Google Gemini API for intelligent conversational FAQ answering.",
+    "tags": ["AI", "REAL-TIME", "CHATBOT"],
+    "tech_stack": ["Django", "Django Channels", "Google Gemini", "Daphne", "WebSockets", "SQLite"]
+  },
+  "Healthcare-Portal": {
+    "description": "A health administration dashboard containing telemetry check schedules, doctor catalogs, patient diagnostic logs, and dynamic crispy forms.",
+    "tags": ["WEB APP", "HEALTHCARE", "DATABASE"],
+    "tech_stack": ["Django", "MySQL", "Crispy Forms", "Bootstrap", "Pillow"]
+  }
+}

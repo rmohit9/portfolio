@@ -254,7 +254,7 @@ function App() {
                   {[
                     { file: 'home.py', text: 'welcome to my interactive frontend shell', line: 1 },
                     { file: 'projects.js', text: 'Live synchronized repositories data', line: 2 },
-                    { file: 'skills.json', text: '"React", "FastAPI", "Docker"', line: 4 },
+                    { file: 'skills.json', text: '"React", "Django", "FastAPI"', line: 4 },
                     { file: 'experience.ts', text: '3+ Years Expert System Architect', line: 1 },
                     { file: 'about.html', text: 'Bio profile info overview', line: 10 }
                   ]

@@ -1067,6 +1067,159 @@ html, body {
   text-decoration: none !important;
 }
 
+/* Category Tags & Tech Badges inside overlay */
+.project-category-tags {
+  font-size: 0.58rem;
+  font-family: var(--mono, monospace);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #bd93f9; /* sleek neon purple style matches screenshot */
+  margin-bottom: 2px;
+  display: block;
+}
+
+.tech-stack-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tech-badge {
+  font-size: 0.62rem;
+  font-family: var(--mono, monospace);
+  color: var(--text-bright);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tech-badge:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Visual Skills Dashboard Layout styling */
+.skills-view-container {
+  width: 100%;
+}
+
+.skill-category-title {
+  font-size: 0.72rem;
+  font-family: var(--mono, monospace);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #e5c07b; /* gold/yellow label */
+  margin-bottom: 20px;
+  display: block;
+}
+
+.skill-row {
+  margin-bottom: 0px;
+}
+
+.skill-name {
+  font-family: var(--sans, sans-serif);
+  color: var(--text-bright);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.skill-percentage {
+  font-family: var(--mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.skill-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.01);
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skill-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.familiar-tag {
+  font-size: 0.72rem;
+  font-family: var(--mono, monospace);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.familiar-tag:hover {
+  color: var(--text-bright);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Experience timeline line & seeking pulse animations */
+.timeline-line {
+  position: absolute;
+  left: -26px; /* Center-aligned with the dots */
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: linear-gradient(to bottom, #58a6ff 0%, #c084fc 60%, rgba(255, 255, 255, 0.05) 100%);
+  transform-origin: top;
+  animation: timeline-grow 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes timeline-grow {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.status-pulse-ring {
+  position: relative;
+  box-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+}
+
+.status-pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid #58a6ff;
+  animation: pulse-ring-anim 2s infinite cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+
+@keyframes pulse-ring-anim {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+
+
 @keyframes space-card-rotate {
   0% {
     transform: rotate(0deg);

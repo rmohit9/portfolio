@@ -1,0 +1,89 @@
+{
+  "categories": [
+    {
+      "title": "AI • ML • DATA SCIENCE",
+      "color": "#e06c75",
+      "skills": [
+        { "name": "PyTorch", "level": 85 },
+        { "name": "TensorFlow", "level": 80 },
+        { "name": "scikit-learn", "level": 90 },
+        { "name": "Pandas", "level": 88 }
+      ]
+    },
+    {
+      "title": "BACKEND & APIS",
+      "color": "#56b6c2",
+      "skills": [
+        { "name": "FastAPI", "level": 90 },
+        { "name": "Flask", "level": 82 },
+        { "name": "Django", "level": 76 },
+        { "name": "Redis", "level": 72 }
+      ]
+    },
+    {
+      "title": "DATABASES",
+      "color": "#98c379",
+      "skills": [
+        { "name": "PostgreSQL", "level": 85 },
+        { "name": "MySQL", "level": 80 },
+        { "name": "SQLite", "level": 85 },
+        { "name": "MongoDB", "level": 75 },
+        { "name": "ChromaDB", "level": 80 },
+        { "name": "Pinecone", "level": 78 }
+      ]
+    },
+    {
+      "title": "DEVOPS & TOOLS",
+      "color": "#e5c07b",
+      "skills": [
+        { "name": "Docker", "level": 80 },
+        { "name": "Git", "level": 90 },
+        { "name": "Linux", "level": 88 },
+        { "name": "AWS", "level": 74 }
+      ]
+    },
+    {
+      "title": "FRONTEND",
+      "color": "#c678dd",
+      "skills": [
+        { "name": "React", "level": 80 },
+        { "name": "Next.js", "level": 72 },
+        { "name": "TailwindCSS", "level": 85 },
+        { "name": "Responsive", "level": 88 }
+      ]
+    },
+    {
+      "title": "DESIGN",
+      "color": "#ff79c6",
+      "skills": [
+        { "name": "Figma", "level": 78 },
+        { "name": "UX Prototyping", "level": 75 }
+      ]
+    },
+    {
+      "title": "DATA ANALYTICS",
+      "color": "#d19a66",
+      "skills": [
+        { "name": "Tableau", "level": 70 },
+        { "name": "Power BI", "level": 72 },
+        { "name": "Jupyter", "level": 85 }
+      ]
+    }
+  ],
+  "also_familiar_with": [
+    "Celery",
+    "NumPy",
+    "Matplotlib",
+    "spaCy",
+    "NLTK",
+    "RAG",
+    "FAISS",
+    "Vector DBs",
+    "MLOps",
+    "LLM Fine tuning",
+    "WebSockets",
+    "Daphne (ASGI)",
+    "Uvicorn",
+    "REST APIs"
+  ]
+}
