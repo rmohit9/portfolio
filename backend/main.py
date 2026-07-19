@@ -186,6 +186,10 @@ def get_github_profile():
             "repos": FALLBACK_REPOS
         }
 
+@app.get("/")
+def read_root():
+    return {"status": "healthy", "message": "Portfolio API is running successfully"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
