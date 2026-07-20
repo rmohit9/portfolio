@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   PyIcon,
   HtmlIcon,
@@ -33,9 +33,12 @@ export const CommandPalette = ({ isOpen, onClose, onFileSelect }) => {
   // Autofocus the input when opened
   useEffect(() => {
     if (isOpen) {
-      setSearch('');
-      setSelectedIndex(0);
-      setTimeout(() => inputRef.current?.focus(), 50);
+      const timer = setTimeout(() => {
+        setSearch('');
+        setSelectedIndex(0);
+        inputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 

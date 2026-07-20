@@ -74,7 +74,7 @@ function App() {
   const location = useLocation();
 
   const [data, setData] = useState(defaultProfileData);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   
   const activeTab = routeToFileMap[location.pathname] || 'home.py';
   const [openTabs, setOpenTabs] = useState(['home.py', 'projects.js']);
@@ -101,9 +101,15 @@ function App() {
   useEffect(() => {
     const currentPath = location.pathname;
     const fileName = routeToFileMap[currentPath] || 'home.py';
-    if (!openTabs.includes(fileName)) {
-      setOpenTabs((prev) => [...prev, fileName]);
-    }
+    const timer = setTimeout(() => {
+      setOpenTabs((prev) => {
+        if (!prev.includes(fileName)) {
+          return [...prev, fileName];
+        }
+        return prev;
+      });
+    }, 0);
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
   // Fetch GitHub profile from FastAPI backend in the background
@@ -126,6 +132,11 @@ function App() {
     }
     const route = fileToRouteMap[fileName] || '/home';
     navigate(route);
+    
+    // Auto-collapse sidebar on mobile layouts to directly show content
+    if (window.innerWidth <= 768) {
+      setActiveSidebar(null);
+    }
   };
 
   const handleCloseTab = (fileName, e) => {
@@ -176,17 +187,17 @@ function App() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-[13px] bg-[#0d1117]/80 hover:bg-[#0d1117] px-2.5 py-0.5 rounded border border-[#2e303a]/60 w-64 md:w-80 text-left cursor-pointer transition-colors relative h-7" onClick={() => setIsSearchModalOpen(true)}>
-          <span className="text-gray-400 truncate font-mono text-center w-full pr-6">rmohit9 : portfolio</span>
-          <span className="absolute right-1.5 top-1 text-[11px] text-gray-500 bg-gray-800/80 px-1 py-0.1 rounded border border-gray-700">Ctrl P</span>
+        <div className="flex items-center justify-between text-[13px] bg-[#0d1117]/80 hover:bg-[#0d1117] px-2.5 py-0.5 rounded border border-[#2e303a]/60 w-36 sm:w-64 md:w-80 text-left cursor-pointer transition-colors relative h-7" onClick={() => setIsSearchModalOpen(true)}>
+          <span className="text-gray-400 truncate font-mono text-center w-full sm:pr-6">rmohit9 : portfolio</span>
+          <span className="absolute right-1.5 top-1 text-[11px] text-gray-500 bg-gray-800/80 px-1 py-0.1 rounded border border-gray-700 hidden sm:inline">Ctrl P</span>
         </div>
 
         <div className="flex gap-3 text-gray-400 items-center">
           <button className="hover:text-white p-1 cursor-pointer transition-colors" title="Toggle Sidebar" onClick={() => setActiveSidebar(activeSidebar ? null : 'explorer')}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
-          <span className="h-4 w-px bg-gray-700"></span>
-          <span className="text-[11px] text-gray-500 font-mono tracking-wider">v15.0</span>
+          <span className="h-4 w-px bg-gray-700 hidden sm:inline"></span>
+          <span className="text-[11px] text-gray-500 font-mono tracking-wider hidden sm:inline">v15.0</span>
         </div>
       </header>
 
@@ -194,7 +205,7 @@ function App() {
       <div className="editor-workspace">
         
         {/* ACTIVITY BAR DRAWER */}
-        <nav className="activity-bar">
+        <nav className={`activity-bar ${!activeSidebar ? 'collapsed' : ''}`}>
           <div className="activity-group">
             <div className={`activity-icon ${activeSidebar === 'explorer' ? 'active' : ''}`} onClick={() => setActiveSidebar(activeSidebar === 'explorer' ? null : 'explorer')} title="Explorer">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[22px] h-[22px]"><path d="M16 4H4v16h12V4z" /><path d="M8 2h10v16M20 6h-2M20 10h-2" /></svg>
@@ -390,13 +401,28 @@ function App() {
 
         </aside>
 
+        {/* Mobile backdrop overlay - closes sidebar when clicked outside */}
+        {activeSidebar && (
+          <div 
+            className="md:hidden absolute inset-0 bg-black/60 z-30 transition-opacity duration-300"
+            onClick={() => setActiveSidebar(null)}
+          />
+        )}
+
         {/* WORKSPACE CODE VIEWER PANEL */}
         <main className="editor-main-panel">
           
           <div className="editor-tabs-bar">
             {openTabs.map((tab) => (
-              <div key={tab} className={`editor-tab ${activeTab === tab ? 'active' : ''}`} onClick={() => handleFileClick(tab)}>
-                <span className="flex items-center gap-1.5 select-none">
+              <div 
+                key={tab} 
+                className={`editor-tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={(e) => {
+                  if (e.target.classList.contains('close-tab-btn')) return;
+                  handleFileClick(tab);
+                }}
+              >
+                <span className="flex items-center gap-1.5 select-none pointer-events-none">
                   {tab === 'home.py' && <PyIcon />}
                   {tab === 'projects.js' && <JsIcon />}
                   {tab === 'skills.json' && <JsonIcon />}
@@ -409,7 +435,15 @@ function App() {
                   {tab === '.env' && <EnvIcon />}
                   <span>{tab}</span>
                 </span>
-                <span className="text-gray-500 hover:text-white ml-2 text-[12px] cursor-pointer font-bold select-none" onClick={(e) => handleCloseTab(tab, e)}>×</span>
+                <span 
+                  className="close-tab-btn text-gray-500 hover:text-white ml-2 text-[12px] cursor-pointer font-bold select-none px-1" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCloseTab(tab, e);
+                  }}
+                >
+                  ×
+                </span>
               </div>
             ))}
           </div>
@@ -455,7 +489,7 @@ function App() {
               )}
 
               {activeTab === 'contact.css' && (
-                <ContactView data={data} />
+                <ContactView />
               )}
 
               {activeTab === '.gitignore' && (
@@ -463,7 +497,7 @@ function App() {
               )}
 
               {activeTab === 'README.md' && (
-                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-fadeIn md:max-w-2xl">
+                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-slideIn md:max-w-2xl">
                   <span className="text-[#6a9955]">// README.md - Description</span>
                   <pre className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl overflow-x-auto leading-relaxed">
                     {`# Mohit Raut Portfolio
@@ -476,7 +510,7 @@ Includes orbital tech visualizations and canvas gravity animations.`}
               )}
 
               {activeTab === 'hobbies.md' && (
-                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-fadeIn md:max-w-2xl">
+                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-slideIn md:max-w-2xl">
                   <span className="text-[#6a9955]">// hobbies.md - Outside of work interest</span>
                   <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl space-y-3">
                     <p>🎮 Gaming & Simulation engines</p>
@@ -488,7 +522,7 @@ Includes orbital tech visualizations and canvas gravity animations.`}
               )}
 
               {activeTab === '.env' && (
-                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-fadeIn md:max-w-2xl">
+                <div className="font-mono text-xs text-gray-300 text-left space-y-4 animate-slideIn md:max-w-2xl">
                   <span className="text-[#6a9955]"># Environment Configuration variables</span>
                   <pre className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl overflow-x-auto text-[#cbcb41]">
                     {`PORT=5174

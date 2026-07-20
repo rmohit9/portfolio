@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 // Folder icon matching VS Code's standard outline folder icon
 export const FolderIcon = () => (

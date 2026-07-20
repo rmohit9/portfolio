@@ -1,17 +1,18 @@
-import React from 'react';
+import { useState } from 'react';
 import projectsMetadata from '../../data/projects_metadata.json';
 
 export const ProjectsView = ({ data }) => {
+  const [activeCardId, setActiveCardId] = useState(null);
   if (!data || !data.repos) return null;
   return (
-    <div className="text-left space-y-6 animate-fadeIn md:max-w-5xl">
-      <div className="space-y-2 mb-8">
+    <div className="text-left space-y-6 animate-slideIn md:max-w-5xl">
+      <div className="space-y-2 mb-8 reveal-item">
         <span className="text-[#6a9955] font-mono text-sm block">// projects.js - Live repository index data packets</span>
         <h2 className="text-3xl font-black text-gray-200 mt-1 border-none pb-0">Projects &amp; Repositories</h2>
         <p className="text-sm text-gray-500 mt-2 font-mono">Live synchronized data packets pulled via FastAPI backend services.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {data.repos.map((repo) => {
+        {data.repos.map((repo, idx) => {
           // Find matching metadata (case-insensitive)
           const metadata = Object.entries(projectsMetadata).find(
             ([key]) => key.toLowerCase() === repo.name.toLowerCase()
@@ -22,7 +23,11 @@ export const ProjectsView = ({ data }) => {
           const techStack = metadata?.tech_stack || (repo.language ? [repo.language] : ["System Logic"]);
 
           return (
-            <div key={repo.id} className="space-card">
+            <div 
+              key={repo.id} 
+              className={`space-card reveal-item ${idx === 0 ? 'delay-150' : idx === 1 ? 'delay-300' : idx === 2 ? 'delay-450' : 'delay-600'} ${activeCardId === repo.id ? 'active' : ''}`}
+              onClick={() => setActiveCardId(activeCardId === repo.id ? null : repo.id)}
+            >
               {/* Fine outlined stars using the theme color */}
               <svg className="star star-1" viewBox="0 0 100 100">
                 <polygon points="50,0 61,35 98,35 68,57 79,91 50,70 21,91 32,57 2,35 39,35" />
@@ -67,7 +72,7 @@ export const ProjectsView = ({ data }) => {
                         {tags.join(' • ')}
                       </span>
                     )}
-                    <a href={repo.html_url} target="_blank" rel="noreferrer" className="project-title">
+                    <a href={repo.html_url} target="_blank" rel="noreferrer" className="project-title" onClick={(e) => e.stopPropagation()}>
                       {repo.name}
                     </a>
                     <span className="project-stats">
@@ -93,6 +98,7 @@ export const ProjectsView = ({ data }) => {
                       target="_blank" 
                       rel="noreferrer" 
                       className="github-btn flex items-center gap-1.2 px-2 py-0.5 bg-white/5 hover:bg-[rgba(88,166,255,0.12)] border border-[#2e303a] hover:border-[rgba(88,166,255,0.4)] rounded text-[10px] font-mono transition-all duration-200"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <span>GitHub</span>
                       <svg className="w-2.5 h-2.5 text-current ml-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">

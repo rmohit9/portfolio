@@ -47,7 +47,6 @@
       "color": "#c678dd",
       "skills": [
         { "name": "React", "level": 80 },
-        { "name": "Next.js", "level": 72 },
         { "name": "TailwindCSS", "level": 85 },
         { "name": "Responsive", "level": 88 }
       ]

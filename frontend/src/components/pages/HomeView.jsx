@@ -1,6 +1,6 @@
-import React from 'react';
 import ParticleCard from '../ParticleCard';
-import { ConcentricOrbitalChart, AI_TRACKS_DATA, TECH_TRACKS_DATA } from '../ConcentricOrbitalChart';
+import ConcentricOrbitalChart from '../ConcentricOrbitalChart';
+import { AI_TRACKS_DATA, TECH_TRACKS_DATA } from '../../data/tracks';
 import FuzzyText from '../FuzzyText';
 
 export const HomeView = ({ handleFileClick }) => {
@@ -62,7 +62,7 @@ export const HomeView = ({ handleFileClick }) => {
     },
     { 
       name: "Inbox", 
-      href: "mailto:mohit.raut@example.com", 
+      href: "mailto:mohitraut009@gmail.com", 
       color: "#ea4335",
       icon: (
         <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -74,7 +74,7 @@ export const HomeView = ({ handleFileClick }) => {
   ];
 
   return (
-    <div className="space-y-10 pt-4 animate-fadeIn md:max-w-5xl mx-auto flex flex-col items-center w-full">
+    <div className="space-y-10 pt-4 animate-slideIn md:max-w-5xl mx-auto flex flex-col items-center w-full">
       {/* Particle card - relocated to the very top */}
       <div className="w-full reveal-item">
         <ParticleCard />
@@ -84,7 +84,7 @@ export const HomeView = ({ handleFileClick }) => {
       <div className="w-full flex flex-col items-start space-y-5 select-none px-4 md:px-0">
 
         {/* Badges row */}
-        <div className="flex flex-wrap gap-3 items-center justify-between select-none w-full pl-2 pr-2 md:pr-0 reveal-item delay-150">
+        <div className="flex flex-wrap gap-3 items-center justify-start md:justify-between select-none w-full pl-2 pr-2 md:pr-0 reveal-item delay-150">
           <span className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#16171d]/85 border border-[#2e303a] rounded-full text-sm font-mono text-gray-300">
             <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: 'var(--accent-light)' }}></span> AI Engineer
           </span>
@@ -119,7 +119,7 @@ export const HomeView = ({ handleFileClick }) => {
             letterSpacing={5}
             stroke={true}
             strokeWidth={1.5}
-            className="uppercase select-none leading-none tracking-widest cursor-pointer font-sans -ml-[45px]"
+            className="uppercase select-none leading-none tracking-widest cursor-pointer font-sans md:-ml-[45px]"
           >
             Mohit Raut
           </FuzzyText>
@@ -168,7 +168,7 @@ export const HomeView = ({ handleFileClick }) => {
       </div>
 
       {/* Stats Divider block */}
-      <div className="grid grid-cols-2 md:grid-cols-4 border border-[#2e303a] bg-[#16171d]/20 rounded-xl py-6 my-8 divide-x divide-[#2e303a] select-none w-full">
+      <div className="grid grid-cols-2 md:grid-cols-4 border border-[#2e303a] bg-[#16171d]/20 rounded-xl py-6 my-8 divide-x-0 md:divide-x divide-[#2e303a] select-none w-full">
         <div className="text-center py-2 md:py-0">
           <div className="text-4xl md:text-5xl font-extrabold text-[#f3f4f6] font-mono leading-none">3+</div>
           <div className="text-xs md:text-sm tracking-widest text-gray-500 font-mono uppercase mt-2">Years</div>

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-export const ContactView = ({ data }) => {
+export const ContactView = () => {
   const gUsername = "rmohit9";
-  const email = "mohit.raut@example.com";
+  const email = "mohitraut009@gmail.com";
 
   const [formData, setFormData] = useState({
     name: '',
@@ -19,22 +19,57 @@ export const ContactView = ({ data }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSending(true);
-    // Simulate sending animation
-    setTimeout(() => {
+    setSendSuccess(false);
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      console.error("Web3Forms access key is missing from environment variables.");
+      alert("Form submission failed: Access Key is missing from the env configuration. Please make sure you have added VITE_WEB3FORMS_ACCESS_KEY to your .env file and saved it.");
       setIsSending(false);
-      setSendSuccess(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSendSuccess(false), 3000);
-    }, 1500);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || "Portfolio Contact Message",
+          message: formData.message,
+          from_name: "Portfolio Visitor"
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSendSuccess(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setSendSuccess(false), 4000);
+      } else {
+        console.error("Web3Forms error response:", result);
+        alert(`Failed to send message: ${result.message || "Unknown error"}`);
+      }
+    } catch (err) {
+      console.error("Submission fetch error:", err);
+      alert("An error occurred while dispatching the message. Please check your internet connection.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
-    <div className="text-left space-y-12 animate-fadeIn md:max-w-5xl mx-auto py-4 md:py-8 px-4 md:px-0">
+    <div className="text-left space-y-12 animate-slideIn md:max-w-5xl mx-auto py-4 md:py-8 px-4 md:px-0">
       {/* Header Block */}
-      <div>
+      <div className="reveal-item">
         <h1 className="text-5xl md:text-6xl font-black text-gray-100 tracking-tight leading-tight">
           Contact
         </h1>
@@ -47,7 +82,7 @@ export const ContactView = ({ data }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Social Links */}
-        <div className="space-y-6">
+        <div className="space-y-6 reveal-item delay-150">
           <div className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-black font-mono text-[#e5c07b]">
             FIND ME ON
           </div>
@@ -125,14 +160,14 @@ export const ContactView = ({ data }) => {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider font-mono">Phone</div>
-                <div className="text-sm font-bold text-gray-200 mt-0.5 truncate font-mono">+91 9370X XXXXX</div>
+                <div className="text-sm font-bold text-gray-200 mt-0.5 truncate font-mono">+91 9561569348</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Right Column: Code Form */}
-        <div className="space-y-6">
+        <div className="space-y-6 reveal-item delay-300">
           <div className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-black font-mono text-[#e5c07b]">
             SEND A MESSAGE
           </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const TimelineItem = ({ job }) => {
   const elementRef = useRef(null);
@@ -15,13 +15,14 @@ const TimelineItem = ({ job }) => {
       { threshold: 0.1 }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
   }, []);
@@ -120,13 +121,13 @@ export const ExperienceView = () => {
   }, []);
 
   return (
-    <div className="text-left space-y-10 py-4 md:py-6 animate-fadeIn md:max-w-5xl">
-      <div className="space-y-2 mb-8">
+    <div className="text-left space-y-10 py-4 md:py-6 animate-slideIn md:max-w-5xl">
+      <div className="space-y-2 mb-8 reveal-item">
         <span className="text-[#6a9955] font-mono text-sm block">// experience.ts - Developer Career Milestones Timeline</span>
         <h2 className="text-3xl font-black text-gray-200 mt-1 border-none pb-0">Timeline Career Journey</h2>
       </div>
       
-      <div className="relative pl-6 ml-3 space-y-16 py-6">
+      <div className="relative pl-6 ml-3 space-y-16 py-6 reveal-item delay-150">
         {/* Backing line track (static) */}
         <div className="absolute -left-[26px] top-3 bottom-3 w-[1px] bg-white/5" />
         

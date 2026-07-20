@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import profileImg from '../../assets/Mohit-raut.png';
 
 export const AboutView = () => {
@@ -16,17 +16,17 @@ export const AboutView = () => {
   ];
 
   return (
-    <div className="text-left space-y-8 animate-fadeIn md:max-w-5xl mx-auto pb-12 px-4 md:px-0">
+    <div className="text-left space-y-8 animate-slideIn md:max-w-5xl mx-auto pb-12 px-4 md:px-0">
       
       {/* 1. Header Block */}
-      <div className="space-y-2">
+      <div className="space-y-2 reveal-item">
         <span className="text-[#6a9955] font-mono text-sm block">// about.html - Biography overview</span>
         <h2 className="text-4xl font-black text-gray-100 tracking-tight mt-1 border-none pb-0">Biography & Profile</h2>
         <div className="h-[2px] w-16 bg-[#58a6ff] rounded-full mt-2"></div>
       </div>
 
       {/* 2. Top Intro Block: Profile Image (Left) + Conversational Intro (Right) */}
-      <div className="flex flex-col md:flex-row gap-6 items-stretch">
+      <div className="flex flex-col md:flex-row gap-6 items-stretch reveal-item delay-150">
         
         {/* Profile Image Column (Left) */}
         <div className="w-full md:w-[320px] flex-shrink-0">
@@ -80,7 +80,7 @@ export const AboutView = () => {
       {/* 3. Section Divider & Linear Content Blocks arranged one-by-one */}
       
       {/* Block A: CURRENT FOCUS */}
-      <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-2xl space-y-4 hover:border-[#58a6ff]/30 transition-colors duration-300">
+      <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-2xl space-y-4 hover:border-[#58a6ff]/30 transition-colors duration-300 reveal-item delay-300">
         <div className="flex items-center gap-3 border-b border-[#2e303a]/60 pb-3">
           <span className="text-[#58a6ff] font-mono text-lg font-bold">&gt;_</span>
           <h3 className="text-lg font-bold text-gray-200 m-0 font-mono">Current Focus</h3>
@@ -96,7 +96,7 @@ export const AboutView = () => {
       </div>
 
       {/* Block B: EDUCATION */}
-      <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-2xl space-y-4 hover:border-[#c084fc]/30 transition-colors duration-300">
+      <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-2xl space-y-4 hover:border-[#c084fc]/30 transition-colors duration-300 reveal-item delay-450">
         <div className="flex items-center gap-3 border-b border-[#2e303a]/60 pb-3">
           <svg className="w-5 h-5 text-[#c084fc]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -120,7 +120,7 @@ export const AboutView = () => {
       </div>
 
       {/* Block C: LOCATION & RELOCATION */}
-      <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-2xl space-y-4 hover:border-[#27c93f]/30 transition-colors duration-300">
+      <div className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-2xl space-y-4 hover:border-[#27c93f]/30 transition-colors duration-300 reveal-item delay-600">
         <div className="flex items-center gap-3 border-b border-[#2e303a]/60 pb-3">
           <svg className="w-5 h-5 text-[#27c93f]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />

@@ -348,7 +348,9 @@ const FuzzyText = ({
     glitchInterval,
     glitchDuration,
     gradient,
-    letterSpacing
+    letterSpacing,
+    stroke,
+    strokeWidth
   ]);
 
   return <canvas ref={canvasRef} className={className} />;

@@ -1,8 +1,8 @@
-import React from 'react';
+
 
 export const GitignoreView = () => {
   return (
-    <div className="font-mono text-xs text-[#d4d4d4] text-left space-y-4 animate-fadeIn md:max-w-2xl">
+    <div className="font-mono text-xs text-[#d4d4d4] text-left space-y-4 animate-slideIn md:max-w-2xl">
       <div className="text-[#6a9955]"># .gitignore - Standard ignored file entries for Node & Env</div>
       <pre className="bg-[#16171d]/60 border border-[#2e303a] p-6 rounded-xl overflow-x-auto leading-relaxed text-gray-400">
 {`node_modules/
