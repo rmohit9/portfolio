@@ -79,7 +79,9 @@ function App() {
   const activeTab = routeToFileMap[location.pathname] || 'home.py';
   const [openTabs, setOpenTabs] = useState(['home.py', 'projects.js']);
   const [theme, setTheme] = useState('mohit');
-  const [activeSidebar, setActiveSidebar] = useState('explorer');
+  const [activeSidebar, setActiveSidebar] = useState(() => {
+    return window.innerWidth <= 768 ? null : 'explorer';
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [commitMessage, setCommitMessage] = useState('');
   const [isCommitted, setIsCommitted] = useState(false);
