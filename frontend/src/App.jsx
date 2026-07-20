@@ -62,8 +62,10 @@ const defaultProfileData = {
     location: "fulltime-Nagpur, Part-time-Hyderabad" 
   },
   repos: [
-    { id: 1, name: "Caption-Generator", description: "A deep learning model base that generates captions for images.", html_url: "https://github.com/rmohit9/Caption-Generator", language: "JavaScript" },
-    { id: 2, name: "Faq_RAG_Chatbot", description: "A Retrieval-Augmented Generation chatbot system configured to answer FAQs utilizing vector storage matching.", html_url: "https://github.com/rmohit9/Faq_RAG_Chatbot", language: "HTML" }
+    { id: 1175781790, name: "Caption-Generator", description: "A deep learning model base that generates captions for images.", html_url: "https://github.com/rmohit9/Caption-Generator", language: "JavaScript" },
+    { id: 1112480366, name: "Faq_RAG_Chatbot", description: "A Retrieval-Augmented Generation chatbot system configured to answer FAQs utilizing vector storage matching.", html_url: "https://github.com/rmohit9/Faq_RAG_Chatbot", language: "HTML" },
+    { id: 1139590233, name: "Email_Verifier", description: "A utility validation engine that verifies email addresses check structure, domain registers and SMTP signals.", html_url: "https://github.com/rmohit9/Email_Verifier", language: "HTML" },
+    { id: 1070106322, name: "Healthcare-Portal", description: "A health administration dashboard containing telemetry check schedules, doctor catalogs and diagnostic logs.", html_url: "https://github.com/rmohit9/Healthcare-Portal", language: "Python" }
   ]
 };
 
